@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Did I Draw? - Daily Drawing Prompts</title>
+    <meta name="description" content="Get daily creative drawing prompts. Generate random prompts with mood filters for your art practice.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>What Did I Draw?</h1>
+            <p class="tagline">Your daily dose of creative chaos</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="daily">Today's Prompt</button>
+            <button class="tab-btn" data-tab="random">Random Generator</button>
+            <button class="tab-btn" data-tab="archive">Archive</button>
+        </nav>
+
+        <!-- Daily Prompt Tab -->
+        <section id="daily-tab" class="tab-content active">
+            <div id="daily-prompt" class="prompt-card loading">
+                <div class="loader">Loading today's prompt...</div>
+            </div>
+            <div class="prompt-actions">
+                <button class="btn btn-secondary" onclick="sharePrompt('daily')">Share</button>
+            </div>
+        </section>
+
+        <!-- Random Generator Tab -->
+        <section id="random-tab" class="tab-content">
+            <div class="filters">
+                <h3>Customize Your Prompt</h3>
+                
+                <div class="filter-group">
+                    <label>
+                        <input type="checkbox" id="includeScene" checked>
+                        Include Scene
+                    </label>
+                </div>
+
+                <div class="filter-group">
+                    <label for="mood">Mood</label>
+                    <select id="mood">
+                        <option value="none">Any Mood</option>
+                        <option value="Sunshine & Rainbows">Sunshine & Rainbows</option>
+                        <option value="Tuesday Vibes">Tuesday Vibes</option>
+                        <option value="Delightfully Odd">Delightfully Odd</option>
+                        <option value="Things That Go Bump">Things That Go Bump</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="animalRarity">Animals</label>
+                    <select id="animalRarity">
+                        <option value="Normal">Normal Mix</option>
+                        <option value="All the Animals!">All the Animals!</option>
+                        <option value="No Animals">No Animals</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="objectRarity">Objects</label>
+                    <select id="objectRarity">
+                        <option value="Normal">Normal Mix</option>
+                        <option value="I Hate Organic Matter">Objects Only</option>
+                        <option value="No Objects">No Objects</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" onclick="generateRandom()">Generate Prompt</button>
+            </div>
+
+            <div id="random-prompt" class="prompt-card"></div>
+            <div id="random-actions" class="prompt-actions" style="display: none;">
+                <button class="btn btn-secondary" onclick="sharePrompt('random')">Share</button>
+                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
+            </div>
+        </section>
+
+        <!-- Archive Tab -->
+        <section id="archive-tab" class="tab-content">
+            <h3>Past Prompts</h3>
+            <div id="archive-list" class="archive-grid loading">
+                <div class="loader">Loading archive...</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Made with ✨ for creative souls</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
