@@ -268,6 +268,24 @@ footer {
     color: var(--text-light);
 }
 
+/* Clickable words */
+.clickable-word {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.clickable-word:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+.prompt-hint-inline {
+    font-size: 1rem;
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
     header h1 {

@@ -118,24 +118,34 @@ function displayPrompt(data, containerId, showMeta) {
     
     const bgColor = data.background_color || data.backgroundColor || '#2563EB';
     
-    let html = `<div class="prompt-text">${data.prompt}</div>`;
+    // Make prompt words clickable
+    const promptWords = data.prompt.split(' ');
+    const clickablePrompt = promptWords.map(word => {
+        const cleanWord = word.replace(/[.,!?]/g, '');
+        return `<span class="clickable-word" onclick="searchWord('${cleanWord}')">${word}</span>`;
+    }).join(' ');
+    
+    let html = '';
+    
+    if (showMeta) {
+        html += `<div class="prompt-hint-inline">Maybe you could draw...</div>`;
+    }
+    
+    html += `<div class="prompt-text">${clickablePrompt}</div>`;
     
     if (data.hashtag) {
         html += `<div class="prompt-hashtag">${data.hashtag}</div>`;
     }
     
-    if (showMeta) {
-        html += `
-            <div class="prompt-meta">
-                ${data.adjective} • ${data.subject} • ${data.action} • ${data.item}
-                ${data.scene ? `<br>in ${data.scene}` : ''}
-            </div>
-        `;
-    }
-    
     container.style.backgroundColor = bgColor;
     container.innerHTML = html;
 }
+
+// Search word on Google Images
+function searchWord(word) {
+    window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(word)}`, '_blank');
+}
+
 
 // Load Archive
 async function loadArchive() {
