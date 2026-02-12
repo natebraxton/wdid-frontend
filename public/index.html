@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Did I Draw? - Daily Drawing Prompts</title>
+    <title>What Do I Draw? - Daily Drawing Prompts</title>
     <meta name="description" content="Get daily creative drawing prompts. Generate random prompts with mood filters for your art practice.">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,30 +11,38 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <h1>What Did I Draw?</h1>
-            <p class="tagline">Your daily dose of creative chaos</p>
+            <h1>What Do I Draw?</h1>
+            <p class="tagline">Daily creative drawing prompts</p>
         </header>
 
-        <!-- Navigation -->
-        <nav class="tabs">
-            <button class="tab-btn active" data-tab="daily">Today's Prompt</button>
-            <button class="tab-btn" data-tab="random">Random Generator</button>
-            <button class="tab-btn" data-tab="archive">Archive</button>
-        </nav>
-
-        <!-- Daily Prompt Tab -->
-        <section id="daily-tab" class="tab-content active">
+        <!-- Daily Prompt View -->
+        <section id="daily-view" class="view active">
             <div id="daily-prompt" class="prompt-card loading">
                 <div class="loader">Loading today's prompt...</div>
             </div>
             <div class="prompt-actions">
                 <button class="btn btn-secondary" onclick="sharePrompt('daily')">Share</button>
+                <button class="btn btn-primary" onclick="showView('random')">Random Prompt</button>
+                <button class="btn btn-secondary" onclick="showView('archive')">View Archive</button>
             </div>
         </section>
 
-        <!-- Random Generator Tab -->
-        <section id="random-tab" class="tab-content">
-            <div class="filters">
+        <!-- Random Generator View -->
+        <section id="random-view" class="view">
+            <div id="random-prompt-container">
+                <div class="prompt-hint" id="prompt-hint">Maybe you could draw...</div>
+                <div id="random-prompt" class="prompt-card">
+                    <div class="prompt-text">Click Generate to get a prompt!</div>
+                </div>
+            </div>
+            
+            <div class="prompt-actions">
+                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
+                <button class="btn btn-secondary" onclick="showView('daily')">View Today's Prompt</button>
+                <button class="btn btn-secondary" id="settings-toggle" onclick="toggleSettings()">⚙️ Settings</button>
+            </div>
+
+            <div class="filters" id="filters" style="display: none;">
                 <h3>Customize Your Prompt</h3>
                 
                 <div class="filter-group">
@@ -72,19 +80,16 @@
                         <option value="No Objects">No Objects</option>
                     </select>
                 </div>
-
-                <button class="btn btn-primary" onclick="generateRandom()">Generate Prompt</button>
-            </div>
-
-            <div id="random-prompt" class="prompt-card"></div>
-            <div id="random-actions" class="prompt-actions" style="display: none;">
-                <button class="btn btn-secondary" onclick="sharePrompt('random')">Share</button>
-                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
             </div>
         </section>
 
-        <!-- Archive Tab -->
-        <section id="archive-tab" class="tab-content">
+        <!-- Archive View -->
+        <section id="archive-view" class="view">
+            <div class="view-actions">
+                <button class="btn btn-secondary" onclick="showView('daily')">Today's Prompt</button>
+                <button class="btn btn-secondary" onclick="showView('random')">Random Generator</button>
+            </div>
+            
             <h3>Past Prompts</h3>
             <div id="archive-list" class="archive-grid loading">
                 <div class="loader">Loading archive...</div>

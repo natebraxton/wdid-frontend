@@ -5,27 +5,28 @@ const API_URL = 'https://wdid-api-production.up.railway.app';
 let currentDailyPrompt = null;
 let currentRandomPrompt = null;
 
-// Tab Navigation
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const tabName = btn.dataset.tab;
-        
-        // Update buttons
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        // Update content
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        document.getElementById(`${tabName}-tab`).classList.add('active');
-        
-        // Load data if needed
-        if (tabName === 'archive' && !document.querySelector('.archive-item')) {
-            loadArchive();
-        }
+// View Navigation
+function showView(viewName) {
+    // Hide all views
+    document.querySelectorAll('.view').forEach(view => {
+        view.classList.remove('active');
     });
-});
+    
+    // Show selected view
+    document.getElementById(`${viewName}-view`).classList.add('active');
+    
+    // Load data if needed
+    if (viewName === 'archive' && !document.querySelector('.archive-item')) {
+        loadArchive();
+    }
+}
+
+// Toggle Settings
+function toggleSettings() {
+    const filters = document.getElementById('filters');
+    const isVisible = filters.style.display !== 'none';
+    filters.style.display = isVisible ? 'none' : 'block';
+}
 
 // Load Daily Prompt
 async function loadDailyPrompt() {
@@ -39,7 +40,7 @@ async function loadDailyPrompt() {
         
         if (response.ok) {
             currentDailyPrompt = data;
-            displayPrompt(data, 'daily-prompt');
+            displayPrompt(data, 'daily-prompt', false);
         } else {
             container.innerHTML = `
                 <div class="prompt-text" style="color: var(--text-light);">
@@ -63,10 +64,11 @@ async function loadDailyPrompt() {
 // Generate Random Prompt
 async function generateRandom() {
     const container = document.getElementById('random-prompt');
-    const actions = document.getElementById('random-actions');
+    const hint = document.getElementById('prompt-hint');
     
     container.classList.add('loading');
     container.innerHTML = '<div class="loader">Generating prompt...</div>';
+    hint.classList.remove('visible');
     
     const includeScene = document.getElementById('includeScene').checked;
     const mood = document.getElementById('mood').value;
@@ -89,8 +91,8 @@ async function generateRandom() {
         
         if (response.ok) {
             currentRandomPrompt = data;
-            displayPrompt(data, 'random-prompt');
-            actions.style.display = 'flex';
+            displayPrompt(data, 'random-prompt', true);
+            hint.classList.add('visible');
         } else {
             container.innerHTML = `
                 <div class="prompt-text" style="color: #DC2626;">
@@ -111,20 +113,28 @@ async function generateRandom() {
 }
 
 // Display Prompt
-function displayPrompt(data, containerId) {
+function displayPrompt(data, containerId, showMeta) {
     const container = document.getElementById(containerId);
     
     const bgColor = data.background_color || data.backgroundColor || '#2563EB';
     
+    let html = `<div class="prompt-text">${data.prompt}</div>`;
+    
+    if (data.hashtag) {
+        html += `<div class="prompt-hashtag">${data.hashtag}</div>`;
+    }
+    
+    if (showMeta) {
+        html += `
+            <div class="prompt-meta">
+                ${data.adjective} • ${data.subject} • ${data.action} • ${data.item}
+                ${data.scene ? `<br>in ${data.scene}` : ''}
+            </div>
+        `;
+    }
+    
     container.style.backgroundColor = bgColor;
-    container.innerHTML = `
-        <div class="prompt-text">${data.prompt}</div>
-        ${data.hashtag ? `<div class="prompt-hashtag">${data.hashtag}</div>` : ''}
-        <div class="prompt-meta">
-            ${data.adjective} • ${data.subject} • ${data.action} • ${data.item}
-            ${data.scene ? `<br>in ${data.scene}` : ''}
-        </div>
-    `;
+    container.innerHTML = html;
 }
 
 // Load Archive
@@ -167,11 +177,11 @@ function sharePrompt(type) {
     
     if (!prompt) return;
     
-    const text = `${prompt.prompt}\n\n${prompt.hashtag || '#WhatDidIDraw'}`;
+    const text = `${prompt.prompt}\n\n${prompt.hashtag || '#WhatDoIDraw'}`;
     
     if (navigator.share) {
         navigator.share({
-            title: 'What Did I Draw?',
+            title: 'What Do I Draw?',
             text: text
         }).catch(err => console.log('Share cancelled'));
     } else {
