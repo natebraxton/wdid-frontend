@@ -19,6 +19,14 @@ function showView(viewName) {
     if (viewName === 'archive' && !document.querySelector('.archive-item')) {
         loadArchive();
     }
+    
+    if (viewName === 'random') {
+        const container = document.getElementById('random-prompt');
+        // Only generate if empty or showing initial message
+        if (!currentRandomPrompt) {
+            generateRandom();
+        }
+    }
 }
 
 // Toggle Settings
@@ -64,11 +72,9 @@ async function loadDailyPrompt() {
 // Generate Random Prompt
 async function generateRandom() {
     const container = document.getElementById('random-prompt');
-    const hint = document.getElementById('prompt-hint');
     
     container.classList.add('loading');
     container.innerHTML = '<div class="loader">Generating prompt...</div>';
-    hint.classList.remove('visible');
     
     const includeScene = document.getElementById('includeScene').checked;
     const mood = document.getElementById('mood').value;
@@ -92,7 +98,6 @@ async function generateRandom() {
         if (response.ok) {
             currentRandomPrompt = data;
             displayPrompt(data, 'random-prompt', true);
-            hint.classList.add('visible');
         } else {
             container.innerHTML = `
                 <div class="prompt-text" style="color: #DC2626;">
@@ -127,7 +132,10 @@ function displayPrompt(data, containerId, showMeta) {
     
     let html = '';
     
-    if (showMeta) {
+    // Add hint text
+    if (containerId === 'daily-prompt') {
+        html += `<div class="prompt-hint-inline">Today you could draw...</div>`;
+    } else if (containerId === 'random-prompt') {
         html += `<div class="prompt-hint-inline">Maybe you could draw...</div>`;
     }
     
@@ -204,3 +212,9 @@ function sharePrompt(type) {
 
 // Initialize
 loadDailyPrompt();
+
+// Auto-generate random prompt when on random view
+if (window.location.hash === '#random') {
+    showView('random');
+    generateRandom();
+}

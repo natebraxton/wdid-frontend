@@ -30,14 +30,14 @@
         <!-- Random Generator View -->
         <section id="random-view" class="view">
             <div id="random-prompt-container">
-                <div id="random-prompt" class="prompt-card">
-                    <div class="prompt-text">Click Generate to get a prompt!</div>
+                <div id="random-prompt" class="prompt-card loading">
+                    <div class="loader">Loading prompt...</div>
                 </div>
             </div>
             
             <div class="prompt-actions">
-                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
                 <button class="btn btn-secondary" onclick="showView('daily')">View Today's Prompt</button>
+                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
                 <button class="btn btn-secondary" id="settings-toggle" onclick="toggleSettings()">⚙️ Settings</button>
             </div>
 
