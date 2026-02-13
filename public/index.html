@@ -25,8 +25,12 @@
                 <span class="title-accent">DRAW?</span>
             </h1>
         </div>
-
-        <div class="controls-section">
+        
+        <button class="mobile-settings-toggle" onclick="toggleMobileSettings()">
+            <span id="mobile-toggle-text">⚙️ SHOW SETTINGS</span>
+        </button>
+        
+        <div class="controls-section" id="controls-section">
             <!-- Scene Toggle -->
             <div class="control-group">
                 <label class="control-label">SCENE</label>
@@ -35,7 +39,7 @@
                     <span class="toggle-slider"></span>
                 </label>
             </div>
-
+            
             <!-- Vibe Dropdown -->
             <div class="control-group">
                 <label class="control-label">VIBE</label>
@@ -49,7 +53,7 @@
                     </select>
                 </div>
             </div>
-
+            
             <!-- Critters Dropdown -->
             <div class="control-group">
                 <label class="control-label">CRITTERS</label>
@@ -61,7 +65,7 @@
                     </select>
                 </div>
             </div>
-
+            
             <!-- Stuff & Things Dropdown -->
             <div class="control-group">
                 <label class="control-label">STUFF & THINGS</label>
@@ -74,7 +78,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="version-badge">VER 2.5.0</div>
     </header>
 
@@ -84,13 +88,12 @@
             <div class="prompt-container">
                 <div class="prompt-label">TODAY'S INSPIRATION</div>
                 <div id="daily-prompt" class="prompt-card loading">
-                    <div class="prompt-quote-start">"</div>
                     <div class="prompt-content">
                         <div class="loader">Loading today's prompt...</div>
                     </div>
-                    <div class="prompt-quote-end">"</div>
                 </div>
             </div>
+            
 
             <div class="action-buttons">
                 <button class="icon-btn" onclick="showView('archive')" title="View Archive">
@@ -112,13 +115,12 @@
             <div class="prompt-container">
                 <div class="prompt-label">MAYBE YOU COULD DRAW...</div>
                 <div id="random-prompt" class="prompt-card loading">
-                    <div class="prompt-quote-start">"</div>
                     <div class="prompt-content">
                         <div class="loader">Loading prompt...</div>
                     </div>
-                    <div class="prompt-quote-end">"</div>
                 </div>
             </div>
+            
 
             <div class="action-buttons">
                 <button class="icon-btn" onclick="showView('daily')" title="Today's Prompt">

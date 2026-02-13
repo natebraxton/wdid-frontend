@@ -13,11 +13,9 @@
     --cream: #FAF9F6;
     --light-gray: #E8E8E8;
     
-    /* Mood Colors */
-    --chill: #7CB9E8;
-    --happy: #FFD700;
-    --quirky: #00BCD4;
-    --creepy: #EE6C4D;
+    /* Link colors */
+    --link-blue: #0066CC;
+    --link-yellow: #FFD700;
     
     /* Typography */
     --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -29,6 +27,8 @@ body {
     color: var(--dark-teal);
     line-height: 1.6;
     min-height: 100vh;
+    padding-bottom: 100px;
+    position: relative;
 }
 
 /* ============================================
@@ -38,7 +38,7 @@ body {
 .top-bar {
     background: var(--yellow);
     border: 5px solid var(--dark-teal);
-    border-radius: 50px;
+    border-radius: 20px;
     padding: 1rem 2rem;
     margin: 1.5rem;
     display: flex;
@@ -46,7 +46,7 @@ body {
     justify-content: space-between;
     gap: 2rem;
     flex-wrap: wrap;
-    box-shadow: 8px 8px 0px rgba(13, 59, 59, 0.15);
+    box-shadow: 8px 8px 0px var(--dark-teal);
 }
 
 .logo-section {
@@ -122,7 +122,7 @@ body {
     bottom: 0;
     background-color: white;
     border: 3px solid var(--dark-teal);
-    border-radius: 34px;
+    border-radius: 20px;
     transition: 0.3s;
 }
 
@@ -151,7 +151,7 @@ input:checked + .toggle-slider:before {
     appearance: none;
     background: white;
     border: 3px solid var(--dark-teal);
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 0.5rem 2.5rem 0.5rem 1.25rem;
     font-size: 0.9rem;
     font-weight: 700;
@@ -180,7 +180,7 @@ input:checked + .toggle-slider:before {
 }
 
 .critters-select {
-    background-color: var(--happy);
+    background-color: var(--yellow);
     color: var(--dark-teal);
 }
 
@@ -191,11 +191,30 @@ input:checked + .toggle-slider:before {
 .version-badge {
     background: white;
     border: 3px solid var(--dark-teal);
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 0.4rem 1rem;
     font-size: 0.75rem;
     font-weight: 700;
     color: var(--dark-teal);
+}
+
+/* Mobile settings toggle */
+.mobile-settings-toggle {
+    display: none;
+    width: 100%;
+    background: var(--coral);
+    color: white;
+    border: 3px solid var(--dark-teal);
+    border-radius: 15px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mobile-settings-toggle:hover {
+    transform: translateY(-2px);
 }
 
 /* ============================================
@@ -230,7 +249,7 @@ input:checked + .toggle-slider:before {
     background: var(--coral);
     color: white;
     padding: 0.5rem 1.5rem;
-    border-radius: 25px;
+    border-radius: 15px;
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.05em;
@@ -241,79 +260,46 @@ input:checked + .toggle-slider:before {
 .prompt-card {
     background: white;
     border: 5px solid var(--dark-teal);
-    border-radius: 30px;
-    padding: 3rem 2rem;
-    min-height: 300px;
+    border-radius: 20px;
+    padding: 4rem 3rem;
+    min-height: 350px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    box-shadow: 12px 12px 0px rgba(13, 59, 59, 0.1);
+    box-shadow: 12px 12px 0px var(--dark-teal);
     margin: 0 auto;
     max-width: 900px;
+    transform: rotate(-1deg);
 }
 
 .prompt-quote-start,
 .prompt-quote-end {
-    position: absolute;
-    font-size: 4rem;
-    font-weight: 900;
-    color: var(--dark-teal);
-    line-height: 1;
-}
-
-.prompt-quote-start {
-    top: 1rem;
-    left: 1.5rem;
-}
-
-.prompt-quote-end {
-    bottom: 0.5rem;
-    right: 1.5rem;
+    display: none;
 }
 
 .prompt-content {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.2;
     color: var(--dark-teal);
     text-align: center;
     padding: 0 2rem;
 }
 
 .prompt-content .clickable-word {
+    color: var(--link-blue);
+    text-decoration: underline;
+    text-decoration-color: var(--link-yellow);
+    text-decoration-thickness: 5px;
+    text-underline-offset: 3px;
     cursor: pointer;
     transition: all 0.2s;
-    position: relative;
+    text-transform: capitalize;
 }
 
 .prompt-content .clickable-word:hover {
     opacity: 0.7;
-}
-
-/* Color highlighting for database words */
-.prompt-content .word-adjective {
-    color: var(--chill);
-}
-
-.prompt-content .word-subject {
-    color: var(--quirky);
-}
-
-.prompt-content .word-action {
-    color: var(--dark-teal);
-}
-
-.prompt-content .word-item {
-    color: var(--happy);
-    text-decoration: underline;
-    text-decoration-color: var(--happy);
-    text-decoration-thickness: 4px;
-    text-underline-offset: 2px;
-}
-
-.prompt-content .word-scene {
-    color: var(--creepy);
 }
 
 .loader {
@@ -327,16 +313,18 @@ input:checked + .toggle-slider:before {
    ============================================ */
 
 .action-buttons {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
     display: flex;
     gap: 1rem;
-    justify-content: center;
-    margin-bottom: 2rem;
+    z-index: 100;
 }
 
 .icon-btn {
     background: white;
     border: 4px solid var(--dark-teal);
-    border-radius: 15px;
+    border-radius: 12px;
     width: 60px;
     height: 60px;
     display: flex;
@@ -365,54 +353,36 @@ input:checked + .toggle-slider:before {
 /* Random Button */
 .random-button {
     background: var(--coral);
-    border: 5px solid var(--dark-teal);
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
+    color: white;
+    border: 4px solid var(--dark-teal);
+    border-radius: 15px;
+    padding: 1rem 2rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
+    gap: 0.75rem;
+    margin: 2rem auto 0;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 12px 12px 0px rgba(13, 59, 59, 0.2);
-    position: relative;
-}
-
-.random-button::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    right: -8px;
-    bottom: -8px;
-    border: 3px solid var(--dark-teal);
-    border-radius: 50%;
-    opacity: 0.3;
+    transition: all 0.2s;
+    box-shadow: 6px 6px 0px rgba(13, 59, 59, 0.2);
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    max-width: 300px;
 }
 
 .random-button:hover {
-    transform: translate(-4px, -4px) rotate(-5deg);
-    box-shadow: 16px 16px 0px rgba(13, 59, 59, 0.2);
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px rgba(13, 59, 59, 0.2);
 }
 
 .random-button:active {
-    transform: translate(0, 0) rotate(0deg);
-    box-shadow: 6px 6px 0px rgba(13, 59, 59, 0.2);
+    transform: translate(0, 0);
+    box-shadow: 4px 4px 0px rgba(13, 59, 59, 0.2);
 }
 
 .random-button .material-symbols-outlined {
-    font-size: 48px;
-    color: white;
-}
-
-.random-button span:last-child {
-    font-size: 1.1rem;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    color: white;
+    font-size: 32px;
 }
 
 /* ============================================
@@ -446,7 +416,7 @@ input:checked + .toggle-slider:before {
 .archive-item {
     background: white;
     border: 4px solid var(--dark-teal);
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 1.5rem;
     transition: all 0.2s;
     cursor: pointer;
@@ -473,6 +443,7 @@ input:checked + .toggle-slider:before {
     font-size: 1.1rem;
     line-height: 1.3;
     margin-bottom: 0.5rem;
+    text-transform: capitalize;
 }
 
 .archive-hashtag {
@@ -496,56 +467,96 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-content {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 140px;
+    }
+    
     .top-bar {
-        border-radius: 30px;
+        border-radius: 15px;
         padding: 1rem;
         gap: 1rem;
+        flex-direction: column;
+    }
+    
+    .logo-section {
+        width: 100%;
+        justify-content: center;
     }
     
     .site-title {
         font-size: 1.2rem;
     }
     
+    /* Hide controls by default on mobile */
     .controls-section {
+        display: none;
         width: 100%;
-        justify-content: space-around;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .controls-section.mobile-visible {
+        display: flex;
     }
     
     .control-group {
-        gap: 0.5rem;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
     }
     
     .pill-select {
-        font-size: 0.75rem;
-        padding: 0.4rem 2rem 0.4rem 1rem;
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 0.6rem 2.5rem 0.6rem 1rem;
+    }
+    
+    .mobile-settings-toggle {
+        display: block;
+    }
+    
+    .version-badge {
+        align-self: center;
     }
     
     .prompt-content {
-        font-size: 1.5rem;
+        font-size: 2rem;
         padding: 0 1rem;
     }
     
-    .prompt-quote-start,
-    .prompt-quote-end {
-        font-size: 3rem;
+    .prompt-card {
+        padding: 3rem 2rem;
+        min-height: 300px;
     }
     
     .random-button {
-        width: 160px;
-        height: 160px;
+        font-size: 1rem;
+        padding: 0.875rem 1.5rem;
+        max-width: 100%;
     }
     
     .random-button .material-symbols-outlined {
-        font-size: 36px;
+        font-size: 28px;
     }
     
-    .random-button span:last-child {
-        font-size: 0.9rem;
+    .action-buttons {
+        bottom: 1rem;
+        left: 1rem;
+        flex-direction: column;
+    }
+    
+    .icon-btn {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .icon-btn .material-symbols-outlined {
+        font-size: 24px;
     }
     
     .archive-grid {
@@ -554,21 +565,12 @@ input:checked + .toggle-slider:before {
 }
 
 @media (max-width: 480px) {
-    .top-bar {
-        flex-direction: column;
-        text-align: center;
+    .prompt-content {
+        font-size: 1.5rem;
     }
     
-    .controls-section {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .control-group {
-        width: 100%;
-    }
-    
-    .pill-select {
-        width: 100%;
+    .prompt-card {
+        padding: 2rem 1.5rem;
+        min-height: 250px;
     }
 }
