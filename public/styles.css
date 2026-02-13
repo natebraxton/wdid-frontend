@@ -53,6 +53,7 @@ body {
     gap: 2rem;
     flex-wrap: wrap;
     box-shadow: 8px 8px 0px #00000050;
+    z-index:500;
 }
 
 .logo-section {
