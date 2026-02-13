@@ -27,6 +27,21 @@ const OBJECT_MAP = {
     'Only Stuff': 'I Hate Organic Matter'
 };
 
+// Generate random tilt for prompt card
+function getRandomTilt() {
+    return (Math.random() * 4) - 2; // Random between -2 and +2 degrees
+}
+
+// Generate random background color (WCAG AA compliant)
+function generateBackgroundColor() {
+    const colors = [
+        '#2563EB', '#7C3AED', '#DB2777', '#DC2626', '#EA580C',
+        '#D97706', '#059669', '#0891B2', '#4F46E5', '#9333EA',
+        '#C026D3', '#E11D48', '#F59E0B', '#10B981', '#06B6D4'
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
 // View Navigation
 function showView(viewName) {
     // Hide all views
@@ -139,6 +154,14 @@ function displayPrompt(data, containerId) {
     const container = document.getElementById(containerId);
     const contentDiv = container.querySelector('.prompt-content');
     
+    // Apply background color to body
+    const bgColor = data.background_color || data.backgroundColor || generateBackgroundColor();
+    document.body.style.backgroundColor = bgColor;
+    
+    // Apply random tilt to card
+    const tilt = getRandomTilt();
+    container.style.transform = `rotate(${tilt}deg)`;
+    
     // Words from database that should be clickable and colored
     const dbWords = {
         adjective: data.adjective,
@@ -155,7 +178,7 @@ function displayPrompt(data, containerId) {
     Object.entries(dbWords).forEach(([category, word]) => {
         if (word) {
             // Escape special regex characters and make case-insensitive
-            const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, (match) => '\\' + match);
             const regex = new RegExp(`\\b(${escapedWord})\\b`, 'gi');
             promptHTML = promptHTML.replace(regex, `<span class="clickable-word word-${category}" onclick="searchWord('$1')">$1</span>`);
         }
@@ -163,6 +186,7 @@ function displayPrompt(data, containerId) {
     
     contentDiv.innerHTML = promptHTML;
 }
+
 
 // Search word on Google Images
 function searchWord(word) {

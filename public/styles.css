@@ -8,10 +8,11 @@
     /* Color Palette */
     --yellow: #F4D35E;
     --dark-teal: #0D3B3B;
+    --dark-button: #1a1a1a;
     --coral: #EE6C4D;
     --cyan: #00BCD4;
     --cream: #f0f2f0;
-    --light-gray: #E8E8E8;
+    --nav-gray: #d9d9d9;
     
     /* Link colors */
     --link-color: #0D3B3B;
@@ -29,7 +30,9 @@ body {
     min-height: 100vh;
     padding-bottom: 100px;
     position: relative;
+    transition: background-color 0.5s ease;
 }
+
 
 
 /* ============================================
@@ -37,7 +40,7 @@ body {
    ============================================ */
 
 .top-bar {
-    background: var(--yellow);
+    background: var(--nav-gray);
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
     padding: 1rem 2rem;
@@ -202,10 +205,10 @@ input:checked + .toggle-slider:before {
 /* Mobile settings toggle */
 .mobile-settings-toggle {
     display: none;
-    background: var(--coral);
+    background: var(--dark-button);
     color: white;
     border: 3px solid var(--dark-teal);
-    border-radius: 15px;
+    border-radius: 12px;
     padding: 0.75rem;
     font-size: 1.5rem;
     cursor: pointer;
@@ -255,8 +258,9 @@ input:checked + .toggle-slider:before {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: calc(80vh - 120px); /* Account for header height */
+    min-height: calc(80vh - 140px);
     gap: 1.5rem;
+    padding-bottom: 100px;
 }
 
 .prompt-label {
@@ -275,8 +279,6 @@ input:checked + .toggle-slider:before {
     z-index: 10;
     white-space: nowrap;
     max-width: calc(100% - 4rem);
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .prompt-card {
@@ -293,7 +295,7 @@ input:checked + .toggle-slider:before {
     margin: 0 auto;
     max-width: 1000px;
     width: 100%;
-    transform: rotate(-1deg);
+    transition: transform 0.3s ease;
 }
 
 .prompt-content {
@@ -322,10 +324,11 @@ input:checked + .toggle-slider:before {
     opacity: 0.6;
 }
 
+
 /* ============================================
    ACTION BUTTONS
    ============================================ */
-
+    
 .action-buttons {
     position: fixed;
     bottom: 2rem;
@@ -336,7 +339,7 @@ input:checked + .toggle-slider:before {
 }
 
 .icon-btn {
-    background: white;
+    background: var(--dark-button);
     border: 4px solid var(--dark-teal);
     border-radius: 12px;
     width: 60px;
@@ -346,27 +349,27 @@ input:checked + .toggle-slider:before {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 4px 4px 0px rgba(13, 59, 59, 0.15);
+    box-shadow: 4px 4px 0px var(--dark-teal);
 }
 
 .icon-btn:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px rgba(13, 59, 59, 0.15);
+    box-shadow: 6px 6px 0px var(--dark-teal);
 }
 
 .icon-btn:active {
     transform: translate(0, 0);
-    box-shadow: 2px 2px 0px rgba(13, 59, 59, 0.15);
+    box-shadow: 2px 2px 0px var(--dark-teal);
 }
 
 .icon-btn .material-symbols-outlined {
     font-size: 28px;
-    color: var(--dark-teal);
+    color: white;
 }
 
 /* Random Button */
 .random-button {
-    background: var(--coral);
+    background: var(--dark-button);
     color: white;
     border: 4px solid var(--dark-teal);
     border-radius: 15px;
@@ -377,21 +380,26 @@ input:checked + .toggle-slider:before {
     gap: 0.75rem;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 6px 6px 0px rgba(13, 59, 59, 0.2);
+    box-shadow: 6px 6px 0px var(--dark-teal);
     font-size: 1.2rem;
     font-weight: 900;
     letter-spacing: 0.05em;
     max-width: 300px;
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
 }
 
 .random-button:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px rgba(13, 59, 59, 0.2);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 6px 8px 0px var(--dark-teal);
 }
 
 .random-button:active {
-    transform: translate(0, 0);
-    box-shadow: 4px 4px 0px rgba(13, 59, 59, 0.2);
+    transform: translateX(-50%) translateY(0);
+    box-shadow: 6px 4px 0px var(--dark-teal);
 }
 
 .random-button .material-symbols-outlined {
