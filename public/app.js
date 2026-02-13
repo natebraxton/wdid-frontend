@@ -5,6 +5,28 @@ const API_URL = 'https://wdid-api-production.up.railway.app';
 let currentDailyPrompt = null;
 let currentRandomPrompt = null;
 
+// Mood mapping: Frontend names -> Backend names
+const MOOD_MAP = {
+    'Chill': 'Tuesday Vibes',
+    'Happy': 'Sunshine & Rainbows',
+    'Quirky': 'Delightfully Odd',
+    'Creepy': 'Things That Go Bump'
+};
+
+// Animal rarity mapping
+const ANIMAL_MAP = {
+    'Some Critters': 'Normal',
+    'Let\'s Go Vegan': 'No Animals',
+    'All the Animals': 'All the Animals!'
+};
+
+// Object rarity mapping
+const OBJECT_MAP = {
+    'Some Stuff': 'Normal',
+    'Life Only': 'No Objects',
+    'Only Stuff': 'I Hate Organic Matter'
+};
+
 // View Navigation
 function showView(viewName) {
     // Hide all views
@@ -22,25 +44,17 @@ function showView(viewName) {
     
     if (viewName === 'random') {
         const container = document.getElementById('random-prompt');
-        // Only generate if empty or showing initial message
         if (!currentRandomPrompt) {
             generateRandom();
         }
     }
 }
 
-// Toggle Settings
-function toggleSettings() {
-    const filters = document.getElementById('filters');
-    const isVisible = filters.style.display !== 'none';
-    filters.style.display = isVisible ? 'none' : 'block';
-}
-
 // Load Daily Prompt
 async function loadDailyPrompt() {
     const container = document.getElementById('daily-prompt');
     container.classList.add('loading');
-    container.innerHTML = '<div class="loader">Loading today\'s prompt...</div>';
+    container.querySelector('.prompt-content').innerHTML = '<div class="loader">Loading today\'s prompt...</div>';
     
     try {
         const response = await fetch(`${API_URL}/api/daily`);
@@ -48,18 +62,18 @@ async function loadDailyPrompt() {
         
         if (response.ok) {
             currentDailyPrompt = data;
-            displayPrompt(data, 'daily-prompt', false);
+            displayPrompt(data, 'daily-prompt');
         } else {
-            container.innerHTML = `
-                <div class="prompt-text" style="color: var(--text-light);">
+            container.querySelector('.prompt-content').innerHTML = `
+                <div style="color: var(--coral); font-size: 1.2rem;">
                     No prompt yet today!<br>
-                    <small>Check back at midnight</small>
+                    <small style="font-size: 0.8rem;">Check back at midnight</small>
                 </div>
             `;
         }
     } catch (error) {
-        container.innerHTML = `
-            <div class="prompt-text" style="color: #DC2626;">
+        container.querySelector('.prompt-content').innerHTML = `
+            <div style="color: var(--coral); font-size: 1.2rem;">
                 Oops! Couldn't load today's prompt.
             </div>
         `;
@@ -74,17 +88,20 @@ async function generateRandom() {
     const container = document.getElementById('random-prompt');
     
     container.classList.add('loading');
-    container.innerHTML = '<div class="loader">Generating prompt...</div>';
+    container.querySelector('.prompt-content').innerHTML = '<div class="loader">Generating prompt...</div>';
     
     const includeScene = document.getElementById('includeScene').checked;
-    const mood = document.getElementById('mood').value;
-    const animalRarity = document.getElementById('animalRarity').value;
-    const objectRarity = document.getElementById('objectRarity').value;
+    const moodFrontend = document.getElementById('mood').value;
+    const animalFrontend = document.getElementById('animalRarity').value;
+    const objectFrontend = document.getElementById('objectRarity').value;
     
+    // Map frontend values to backend values
     const filters = {};
-    if (mood !== 'none') filters.mood = mood;
-    if (animalRarity !== 'Normal') filters.animalRarity = animalRarity;
-    if (objectRarity !== 'Normal') filters.objectRarity = objectRarity;
+    if (moodFrontend !== 'none') {
+        filters.mood = MOOD_MAP[moodFrontend];
+    }
+    filters.animalRarity = ANIMAL_MAP[animalFrontend];
+    filters.objectRarity = OBJECT_MAP[objectFrontend];
     
     try {
         const response = await fetch(`${API_URL}/api/random`, {
@@ -97,17 +114,17 @@ async function generateRandom() {
         
         if (response.ok) {
             currentRandomPrompt = data;
-            displayPrompt(data, 'random-prompt', true);
+            displayPrompt(data, 'random-prompt');
         } else {
-            container.innerHTML = `
-                <div class="prompt-text" style="color: #DC2626;">
+            container.querySelector('.prompt-content').innerHTML = `
+                <div style="color: var(--coral); font-size: 1.2rem;">
                     Couldn't generate prompt. Try different filters!
                 </div>
             `;
         }
     } catch (error) {
-        container.innerHTML = `
-            <div class="prompt-text" style="color: #DC2626;">
+        container.querySelector('.prompt-content').innerHTML = `
+            <div style="color: var(--coral); font-size: 1.2rem;">
                 Oops! Something went wrong.
             </div>
         `;
@@ -117,43 +134,40 @@ async function generateRandom() {
     }
 }
 
-// Display Prompt
-function displayPrompt(data, containerId, showMeta) {
+// Display Prompt with colored, clickable words
+function displayPrompt(data, containerId) {
     const container = document.getElementById(containerId);
+    const contentDiv = container.querySelector('.prompt-content');
     
-    const bgColor = data.background_color || data.backgroundColor || '#2563EB';
+    // Words from database that should be clickable and colored
+    const dbWords = {
+        adjective: data.adjective,
+        subject: data.subject,
+        action: data.action,
+        item: data.item,
+        scene: data.scene
+    };
     
-    // Make prompt words clickable
-    const promptWords = data.prompt.split(' ');
-    const clickablePrompt = promptWords.map(word => {
-        const cleanWord = word.replace(/[.,!?]/g, '');
-        return `<span class="clickable-word" onclick="searchWord('${cleanWord}')">${word}</span>`;
-    }).join(' ');
+    // Create the prompt text with spans for database words
+    let promptHTML = data.prompt;
     
-    let html = '';
+    // Replace each database word with colored, clickable span
+    Object.entries(dbWords).forEach(([category, word]) => {
+        if (word) {
+            // Escape special regex characters and make case-insensitive
+            const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`\\b(${escapedWord})\\b`, 'gi');
+            promptHTML = promptHTML.replace(regex, `<span class="clickable-word word-${category}" onclick="searchWord('$1')">$1</span>`);
+        }
+    });
     
-    // Add hint text
-    if (containerId === 'daily-prompt') {
-        html += `<div class="prompt-hint-inline">Today you could draw...</div>`;
-    } else if (containerId === 'random-prompt') {
-        html += `<div class="prompt-hint-inline">Maybe you could draw...</div>`;
-    }
-    
-    html += `<div class="prompt-text">${clickablePrompt}</div>`;
-    
-    if (data.hashtag) {
-        html += `<div class="prompt-hashtag">${data.hashtag}</div>`;
-    }
-    
-    container.style.backgroundColor = bgColor;
-    container.innerHTML = html;
+    contentDiv.innerHTML = promptHTML;
 }
 
 // Search word on Google Images
 function searchWord(word) {
     window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(word)}`, '_blank');
 }
-
 
 // Load Archive
 async function loadArchive() {
@@ -167,7 +181,7 @@ async function loadArchive() {
         
         if (response.ok && data.length > 0) {
             container.innerHTML = data.map(prompt => `
-                <div class="archive-item" style="border-left: 4px solid ${prompt.background_color}">
+                <div class="archive-item">
                     <div class="archive-date">${new Date(prompt.date).toLocaleDateString('en-US', { 
                         weekday: 'short', 
                         month: 'short', 
@@ -179,10 +193,10 @@ async function loadArchive() {
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p style="text-align: center; color: var(--text-light);">No archived prompts yet!</p>';
+            container.innerHTML = '<p style="text-align: center; color: var(--dark-teal); opacity: 0.6;">No archived prompts yet!</p>';
         }
     } catch (error) {
-        container.innerHTML = '<p style="text-align: center; color: #DC2626;">Couldn\'t load archive.</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--coral);">Couldn\'t load archive.</p>';
         console.error('Error loading archive:', error);
     } finally {
         container.classList.remove('loading');

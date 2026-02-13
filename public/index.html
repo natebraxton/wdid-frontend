@@ -5,100 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What Do I Draw? - Daily Drawing Prompts</title>
     <meta name="description" content="Get daily creative drawing prompts. Generate random prompts with mood filters for your art practice.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>What Do I Draw?</h1>
-            <p class="tagline">Daily creative drawing prompts</p>
-        </header>
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" fill="#00BCD4"/>
+                    <circle cx="15" cy="15" r="3" fill="white"/>
+                    <circle cx="25" cy="15" r="3" fill="white"/>
+                    <circle cx="20" cy="25" r="3" fill="white"/>
+                </svg>
+            </div>
+            <h1 class="site-title">
+                <span class="title-main">WHAT DO I</span>
+                <span class="title-accent">DRAW?</span>
+            </h1>
+        </div>
 
+        <div class="controls-section">
+            <!-- Scene Toggle -->
+            <div class="control-group">
+                <label class="control-label">SCENE</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="includeScene">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Vibe Dropdown -->
+            <div class="control-group">
+                <label class="control-label">VIBE</label>
+                <div class="pill-dropdown">
+                    <select id="mood" class="pill-select mood-select">
+                        <option value="none">ANY</option>
+                        <option value="Chill">CHILL</option>
+                        <option value="Happy">HAPPY</option>
+                        <option value="Quirky">QUIRKY</option>
+                        <option value="Creepy">CREEPY</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Critters Dropdown -->
+            <div class="control-group">
+                <label class="control-label">CRITTERS</label>
+                <div class="pill-dropdown">
+                    <select id="animalRarity" class="pill-select critters-select">
+                        <option value="Some Critters">SOME CRITTERS</option>
+                        <option value="Let's Go Vegan">LET'S GO VEGAN</option>
+                        <option value="All the Animals">ALL THE ANIMALS</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Stuff & Things Dropdown -->
+            <div class="control-group">
+                <label class="control-label">STUFF & THINGS</label>
+                <div class="pill-dropdown">
+                    <select id="objectRarity" class="pill-select stuff-select">
+                        <option value="Some Stuff">SOME STUFF</option>
+                        <option value="Life Only">LIFE ONLY</option>
+                        <option value="Only Stuff">ONLY STUFF</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="version-badge">VER 2.5.0</div>
+    </header>
+
+    <div class="container">
         <!-- Daily Prompt View -->
         <section id="daily-view" class="view active">
-            <div id="daily-prompt" class="prompt-card loading">
-                <div class="loader">Loading today's prompt...</div>
+            <div class="prompt-container">
+                <div class="prompt-label">TODAY'S INSPIRATION</div>
+                <div id="daily-prompt" class="prompt-card loading">
+                    <div class="prompt-quote-start">"</div>
+                    <div class="prompt-content">
+                        <div class="loader">Loading today's prompt...</div>
+                    </div>
+                    <div class="prompt-quote-end">"</div>
+                </div>
             </div>
-            <div class="prompt-actions">
-                <button class="btn btn-secondary" onclick="sharePrompt('daily')">Share</button>
-                <button class="btn btn-primary" onclick="showView('random')">Random Prompt</button>
-                <button class="btn btn-secondary" onclick="showView('archive')">View Archive</button>
+
+            <div class="action-buttons">
+                <button class="icon-btn" onclick="showView('archive')" title="View Archive">
+                    <span class="material-symbols-outlined">history</span>
+                </button>
+                <button class="icon-btn" onclick="sharePrompt('daily')" title="Share">
+                    <span class="material-symbols-outlined">share</span>
+                </button>
             </div>
+
+            <button class="random-button" onclick="showView('random')">
+                <span class="material-symbols-outlined">autorenew</span>
+                <span>RANDOM IDEA</span>
+            </button>
         </section>
 
         <!-- Random Generator View -->
         <section id="random-view" class="view">
-            <div id="random-prompt-container">
+            <div class="prompt-container">
+                <div class="prompt-label">MAYBE YOU COULD DRAW...</div>
                 <div id="random-prompt" class="prompt-card loading">
-                    <div class="loader">Loading prompt...</div>
+                    <div class="prompt-quote-start">"</div>
+                    <div class="prompt-content">
+                        <div class="loader">Loading prompt...</div>
+                    </div>
+                    <div class="prompt-quote-end">"</div>
                 </div>
             </div>
-            
-            <div class="prompt-actions">
-                <button class="btn btn-secondary" onclick="showView('daily')">View Today's Prompt</button>
-                <button class="btn btn-primary" onclick="generateRandom()">Generate Another</button>
-                <button class="btn btn-secondary" id="settings-toggle" onclick="toggleSettings()">⚙️ Settings</button>
+
+            <div class="action-buttons">
+                <button class="icon-btn" onclick="showView('daily')" title="Today's Prompt">
+                    <span class="material-symbols-outlined">today</span>
+                </button>
+                <button class="icon-btn" onclick="showView('archive')" title="View Archive">
+                    <span class="material-symbols-outlined">history</span>
+                </button>
+                <button class="icon-btn" onclick="sharePrompt('random')" title="Share">
+                    <span class="material-symbols-outlined">share</span>
+                </button>
             </div>
 
-            <div class="filters" id="filters" style="display: none;">
-                <h3>Customize Your Prompt</h3>
-                
-                <div class="filter-group">
-                    <label>
-                        <input type="checkbox" id="includeScene">
-                        Include Scene
-                    </label>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="mood">Mood</label>
-                    <select id="mood">
-                        <option value="none">Any Mood</option>
-                        <option value="Sunshine & Rainbows">Sunshine & Rainbows</option>
-                        <option value="Tuesday Vibes">Tuesday Vibes</option>
-                        <option value="Delightfully Odd">Delightfully Odd</option>
-                        <option value="Things That Go Bump">Things That Go Bump</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="animalRarity">Animals</label>
-                    <select id="animalRarity">
-                        <option value="Normal">Normal Mix</option>
-                        <option value="All the Animals!">All the Animals!</option>
-                        <option value="No Animals">No Animals</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="objectRarity">Objects</label>
-                    <select id="objectRarity">
-                        <option value="Normal">Normal Mix</option>
-                        <option value="I Hate Organic Matter">Objects Only</option>
-                        <option value="No Objects">No Objects</option>
-                    </select>
-                </div>
-            </div>
+            <button class="random-button" onclick="generateRandom()">
+                <span class="material-symbols-outlined">autorenew</span>
+                <span>GENERATE ANOTHER</span>
+            </button>
         </section>
 
         <!-- Archive View -->
         <section id="archive-view" class="view">
-            <div class="view-actions">
-                <button class="btn btn-secondary" onclick="showView('daily')">Today's Prompt</button>
-                <button class="btn btn-secondary" onclick="showView('random')">Random Generator</button>
+            <div class="archive-header">
+                <h2>PAST PROMPTS</h2>
+                <div class="archive-nav">
+                    <button class="icon-btn" onclick="showView('daily')" title="Today's Prompt">
+                        <span class="material-symbols-outlined">today</span>
+                    </button>
+                    <button class="icon-btn" onclick="showView('random')" title="Random Generator">
+                        <span class="material-symbols-outlined">autorenew</span>
+                    </button>
+                </div>
             </div>
             
-            <h3>Past Prompts</h3>
             <div id="archive-list" class="archive-grid loading">
                 <div class="loader">Loading archive...</div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer>
-            <p>Made with ✨ for creative souls</p>
-        </footer>
     </div>
 
     <script src="app.js"></script>
