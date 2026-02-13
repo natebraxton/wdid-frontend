@@ -251,16 +251,17 @@ input:checked + .toggle-slider:before {
     
 .prompt-container {
     text-align: center;
-    margin-bottom: 2rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
+    min-height: calc(80vh - 120px); /* Account for header height */
+    gap: 1.5rem;
 }
 
 .prompt-label {
     position: absolute;
-    top: 2rem;
+    top: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
     background: var(--coral);
@@ -272,6 +273,10 @@ input:checked + .toggle-slider:before {
     letter-spacing: 0.05em;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
     z-index: 10;
+    white-space: nowrap;
+    max-width: calc(100% - 4rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .prompt-card {
@@ -370,7 +375,6 @@ input:checked + .toggle-slider:before {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    margin: 2rem auto 0;
     cursor: pointer;
     transition: all 0.2s;
     box-shadow: 6px 6px 0px rgba(13, 59, 59, 0.2);
@@ -492,6 +496,7 @@ input:checked + .toggle-slider:before {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        position: relative;
     }
     
     .logo-section {
@@ -507,16 +512,14 @@ input:checked + .toggle-slider:before {
     .controls-section {
         display: none;
         position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        margin-top: 0.5rem;
+        top: calc(100% + 0.5rem);
+        left: -5px;
+        right: -5px;
         background: var(--yellow);
         border: 5px solid var(--dark-teal);
         border-radius: 15px;
         padding: 1rem;
-        width: calc(100% - 2rem);
-        margin-left: 1rem;
+        width: calc(100% + 10px);
         flex-direction: column;
         gap: 1rem;
         box-shadow: 8px 8px 0px var(--dark-teal);
@@ -551,12 +554,12 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-container {
-        min-height: 70vh;
+        min-height: calc(70vh - 100px);
+        gap: 1rem;
     }
     
     .prompt-content {
         font-size: 2.5rem;
-        padding: 0 1rem;
     }
     
     .prompt-card {
@@ -565,9 +568,10 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-label {
-        top: 1.5rem;
-        font-size: 0.75rem;
-        padding: 0.6rem 1.5rem;
+        top: 1.25rem;
+        font-size: 0.7rem;
+        padding: 0.5rem 1.25rem;
+        max-width: calc(100% - 3rem);
     }
     
     .random-button {
@@ -608,5 +612,17 @@ input:checked + .toggle-slider:before {
     .prompt-card {
         padding: 3.5rem 1.5rem 2.5rem;
         min-height: 300px;
+    }
+    
+    .prompt-label {
+        font-size: 0.65rem;
+        padding: 0.4rem 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .prompt-label {
+        font-size: 0.6rem;
+        padding: 0.35rem 0.75rem;
     }
 }

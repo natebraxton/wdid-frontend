@@ -227,16 +227,14 @@ function sharePrompt(type) {
 // Toggle mobile settings visibility
 function toggleMobileSettings() {
     const controls = document.getElementById('controls-section');
-    const toggleText = document.getElementById('mobile-toggle-text');
     
     if (controls.classList.contains('mobile-visible')) {
         controls.classList.remove('mobile-visible');
-        toggleText.textContent = '⚙️ SHOW SETTINGS';
     } else {
         controls.classList.add('mobile-visible');
-        toggleText.textContent = '⚙️ HIDE SETTINGS';
     }
 }
+
 
 // Initialize
 loadDailyPrompt();

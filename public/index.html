@@ -103,9 +103,13 @@
                         <div class="loader">Loading today's prompt...</div>
                     </div>
                 </div>
+                
+                <button class="random-button" onclick="showView('random')">
+                    <span class="material-symbols-outlined">autorenew</span>
+                    <span>RANDOM IDEA</span>
+                </button>
             </div>
             
-
             <div class="action-buttons">
                 <button class="icon-btn" onclick="showView('archive')" title="View Archive">
                     <span class="material-symbols-outlined">history</span>
@@ -114,12 +118,8 @@
                     <span class="material-symbols-outlined">share</span>
                 </button>
             </div>
-
-            <button class="random-button" onclick="showView('random')">
-                <span class="material-symbols-outlined">autorenew</span>
-                <span>RANDOM IDEA</span>
-            </button>
         </section>
+
 
         <!-- Random Generator View -->
         <section id="random-view" class="view">
@@ -130,9 +130,13 @@
                         <div class="loader">Loading prompt...</div>
                     </div>
                 </div>
+                
+                <button class="random-button" onclick="generateRandom()">
+                    <span class="material-symbols-outlined">autorenew</span>
+                    <span>GENERATE ANOTHER</span>
+                </button>
             </div>
             
-
             <div class="action-buttons">
                 <button class="icon-btn" onclick="showView('daily')" title="Today's Prompt">
                     <span class="material-symbols-outlined">today</span>
@@ -144,12 +148,8 @@
                     <span class="material-symbols-outlined">share</span>
                 </button>
             </div>
-
-            <button class="random-button" onclick="generateRandom()">
-                <span class="material-symbols-outlined">autorenew</span>
-                <span>GENERATE ANOTHER</span>
-            </button>
         </section>
+
 
         <!-- Archive View -->
         <section id="archive-view" class="view">
