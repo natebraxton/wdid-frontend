@@ -186,14 +186,15 @@ input:checked + .toggle-slider:before {
 }
 
 .critters-select {
-    background-color: var(--yellow);
+    background-color: white;
     color: var(--dark-teal);
 }
 
 .stuff-select {
-    background-color: var(--coral);
-    color: white;
+    background-color: white;
+    color: var(--dark-teal);
 }
+
 
 .version-badge {
     background: white;
@@ -266,18 +267,23 @@ input:checked + .toggle-slider:before {
 }
 
 .prompt-label {
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--label-gray);
-    margin-bottom: 1rem;
+    white-space: nowrap;
+    z-index: 10;
 }
 
 .prompt-card {
     background: white;
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
-    padding: 3rem;
+    padding: 4rem 3rem 3rem;
     min-height: 450px;
     display: flex;
     align-items: center;
@@ -468,22 +474,7 @@ input:checked + .toggle-slider:before {
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 1024px) {
-    .top-bar {
-        padding: 1rem 1.5rem;
-        margin: 1rem;
-    }
-    
-    .controls-section {
-        gap: 1rem;
-    }
-    
-    .prompt-content {
-        font-size: 2.5rem;
-    }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     body {
         padding-bottom: 140px;
     }
@@ -523,7 +514,7 @@ input:checked + .toggle-slider:before {
         flex-direction: column;
         gap: 1.25rem;
         box-shadow: 8px 8px 0px #00000050;
-        z-index: 1000;
+        z-index: 2000;
         align-items: flex-start;
     }
     
@@ -572,13 +563,13 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-card {
-        padding: 3rem 2rem;
+        padding: 3.5rem 2rem 3rem;
         min-height: 350px;
     }
     
     .prompt-label {
         font-size: 0.75rem;
-        margin-bottom: 0.75rem;
+        top: 1.25rem;
     }
     
     .random-button {
@@ -611,6 +602,12 @@ input:checked + .toggle-slider:before {
     }
 }
 
+@media (max-width: 1024px) {
+    .prompt-content {
+        font-size: 2.5rem;
+    }
+}
+
 @media (max-width: 480px) {
     .controls-section {
         right: 1rem;
@@ -623,12 +620,13 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-card {
-        padding: 2.5rem 1.5rem;
+        padding: 3rem 1.5rem 2.5rem;
         min-height: 300px;
     }
     
     .prompt-label {
         font-size: 0.7rem;
-        margin-bottom: 0.5rem;
+        top: 1rem;
     }
 }
+

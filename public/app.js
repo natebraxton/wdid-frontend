@@ -100,6 +100,12 @@ async function loadDailyPrompt() {
 
 // Generate Random Prompt
 async function generateRandom() {
+    // Close mobile settings menu
+    const controls = document.getElementById('controls-section');
+    if (controls.classList.contains('mobile-visible')) {
+        controls.classList.remove('mobile-visible');
+    }
+    
     const container = document.getElementById('random-prompt');
     
     container.classList.add('loading');
