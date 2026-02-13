@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - What Do I Draw?</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <section id="login-section" class="admin-section">
+            <header>
+                <h1>Admin Login</h1>
+                <p class="tagline">Manage your word database</p>
+            </header>
+            
+            <div class="login-card">
+                <input type="password" id="admin-password" placeholder="Enter admin password" />
+                <button class="btn btn-primary" onclick="login()">Login</button>
+                <p id="login-error" class="error-message"></p>
+            </div>
+            
+            <div class="back-link">
+                <a href="/">← Back to site</a>
+            </div>
+        </section>
+
+        <!-- Admin Dashboard -->
+        <section id="admin-section" class="admin-section" style="display: none;">
+            <header>
+                <h1>Word Manager</h1>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                    <a href="/" class="btn btn-secondary">View Site</a>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-total">0</div>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-active">0</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-inactive">0</div>
+                    <div class="stat-label">Inactive</div>
+                </div>
+            </div>
+
+            <!-- Filters & Actions -->
+            <div class="admin-controls">
+                <div class="filters-row">
+                    <select id="filter-category" onchange="loadWords()">
+                        <option value="">All Categories</option>
+                        <option value="adjective">Adjectives</option>
+                        <option value="subject">Subjects</option>
+                        <option value="action">Actions</option>
+                        <option value="item">Items</option>
+                        <option value="scene">Scenes</option>
+                    </select>
+                    
+                    <select id="filter-mood" onchange="loadWords()">
+                        <option value="">All Moods</option>
+                        <option value="Sunshine & Rainbows">Sunshine & Rainbows</option>
+                        <option value="Tuesday Vibes">Tuesday Vibes</option>
+                        <option value="Delightfully Odd">Delightfully Odd</option>
+                        <option value="Things That Go Bump">Things That Go Bump</option>
+                    </select>
+                    
+                    <select id="filter-active" onchange="loadWords()">
+                        <option value="">All Status</option>
+                        <option value="true">Active Only</option>
+                        <option value="false">Inactive Only</option>
+                    </select>
+                    
+                    <input type="text" id="search-word" placeholder="Search words..." onkeyup="filterTable()" />
+                </div>
+                
+                <div class="action-row">
+                    <button class="btn btn-primary" onclick="showAddModal()">+ Add New Word</button>
+                    <button class="btn btn-secondary" onclick="bulkActivate()">Activate Selected</button>
+                    <button class="btn btn-secondary" onclick="bulkDeactivate()">Deactivate Selected</button>
+                </div>
+            </div>
+
+            <!-- Words Table -->
+            <div class="table-container">
+                <table id="words-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" onchange="toggleSelectAll(this)" /></th>
+                            <th>Word</th>
+                            <th>Category</th>
+                            <th>Moods</th>
+                            <th>Flags</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="words-table-body">
+                        <tr>
+                            <td colspan="7" class="loading-cell">Loading words...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="word-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Word</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="word-form" onsubmit="saveWord(event)">
+                <input type="hidden" id="word-id" />
+                
+                <div class="form-group">
+                    <label for="word-text">Word/Phrase *</label>
+                    <input type="text" id="word-text" required />
+                </div>
+                
+                <div class="form-group">
+                    <label for="word-category">Category *</label>
+                    <select id="word-category" required>
+                        <option value="">Select category...</option>
+                        <option value="adjective">Adjective</option>
+                        <option value="subject">Subject</option>
+                        <option value="action">Action</option>
+                        <option value="item">Item</option>
+                        <option value="scene">Scene</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Moods</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" class="mood-check" value="Sunshine & Rainbows" /> Sunshine & Rainbows</label>
+                        <label><input type="checkbox" class="mood-check" value="Tuesday Vibes" /> Tuesday Vibes</label>
+                        <label><input type="checkbox" class="mood-check" value="Delightfully Odd" /> Delightfully Odd</label>
+                        <label><input type="checkbox" class="mood-check" value="Things That Go Bump" /> Things That Go Bump</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Flags</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" id="word-is-animal" /> Is Animal</label>
+                        <label><input type="checkbox" id="word-is-object" /> Is Object</label>
+                        <label><input type="checkbox" id="word-active" checked /> Active</label>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Word</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
