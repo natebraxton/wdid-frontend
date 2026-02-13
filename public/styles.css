@@ -53,7 +53,8 @@ body {
     gap: 2rem;
     flex-wrap: wrap;
     box-shadow: 8px 8px 0px #00000050;
-    z-index:500;
+    z-index: 500;
+    position: relative;
 }
 
 .logo-section {
@@ -269,7 +270,7 @@ input:checked + .toggle-slider:before {
 
 .prompt-label {
     position: absolute;
-    top: 1.5rem;
+    top: 2rem;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.85rem;
@@ -284,7 +285,7 @@ input:checked + .toggle-slider:before {
     background: white;
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
-    padding: 4rem 3rem 3rem;
+    padding: 5rem 3rem 3rem;
     min-height: 450px;
     display: flex;
     align-items: center;
@@ -505,9 +506,7 @@ input:checked + .toggle-slider:before {
         position: fixed;
         top: 6.5rem;
         right: 1.5rem;
-        background: var(--menu-glass);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        background: #ededed;
         border: 5px solid var(--dark-teal);
         border-radius: 15px;
         padding: 1.5rem;
@@ -564,13 +563,13 @@ input:checked + .toggle-slider:before {
     }
     
     .prompt-card {
-        padding: 3.5rem 2rem 3rem;
+        padding: 4rem 2rem 3rem;
         min-height: 350px;
     }
     
     .prompt-label {
         font-size: 0.75rem;
-        top: 1.25rem;
+        top: 1.5rem;
     }
     
     .random-button {
