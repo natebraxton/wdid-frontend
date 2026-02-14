@@ -232,7 +232,7 @@ async function sharePrompt(type) {
     
     // Different share text for daily vs random
     const shareText = type === 'daily'
-    ? `Today's drawing challenge: ${promptText} 🎨
+    ? `Today's drawing challenge: ${promptText} ✏️
 
 #WhatDoIDraw
 Get more ideas → whatdoidraw.com`
