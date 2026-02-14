@@ -5,58 +5,368 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - What Do I Draw?</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="admin.css">
+    <style>
+        /* Admin-specific styles */
+        body {
+            background: #f0f2f0;
+            padding: 2rem;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            background: white;
+            border: 5px solid #2e2e2e;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 8px 8px 0px #00000050;
+        }
+
+        .admin-header h1 {
+            margin: 0 0 0.5rem 0;
+            color: #2e2e2e;
+        }
+
+        .admin-header p {
+            margin: 0;
+            color: #666;
+        }
+
+        .admin-section {
+            background: white;
+            border: 5px solid #2e2e2e;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 8px 8px 0px #00000050;
+        }
+
+        .admin-section h2 {
+            margin: 0 0 1.5rem 0;
+            color: #2e2e2e;
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #2e2e2e;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group input[type="text"],
+        .form-group select {
+            padding: 0.75rem;
+            border: 3px solid #2e2e2e;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mood-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            padding: 1rem;
+            background: #f0f2f0;
+            border-radius: 10px;
+        }
+
+        .btn {
+            background: #0000007a;
+            color: white;
+            border: 4px solid #2e2e2e;
+            border-radius: 12px;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 4px 4px 0px #00000050;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #00000050;
+        }
+
+        .btn-primary {
+            background: #EE6C4D;
+        }
+
+        .btn-danger {
+            background: #DC2626;
+        }
+
+        /* Filters */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f0f2f0;
+            border-radius: 10px;
+        }
+
+        /* Word List Table */
+        .word-list {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            background: #f0f2f0;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: #2e2e2e;
+        }
+
+        tr:hover {
+            background: #f9f9f9;
+        }
+
+        .mood-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .mood-badge {
+            background: #e0e0e0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-small {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            border-width: 2px;
+            box-shadow: 2px 2px 0px #00000050;
+        }
+
+        .btn-small:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0px #00000050;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: #059669;
+            color: white;
+        }
+
+        .message.error {
+            background: #DC2626;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #f0f2f0;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2e2e2e;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Login Section -->
-        <section id="login-section" class="admin-section">
-            <header>
-                <h1>Admin Login</h1>
-                <p class="tagline">Manage your word database</p>
-            </header>
-            
-            <div class="login-card">
-                <input type="password" id="admin-password" placeholder="Enter admin password" />
-                <button class="btn btn-primary" onclick="login()">Login</button>
-                <p id="login-error" class="error-message"></p>
-            </div>
-            
-            <div class="back-link">
-                <a href="/">← Back to site</a>
-            </div>
-        </section>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>What Do I Draw? - Admin</h1>
+            <p>Manage words, prompts, and settings</p>
+        </div>
 
-        <!-- Admin Dashboard -->
-        <section id="admin-section" class="admin-section" style="display: none;">
-            <header>
-                <h1>Word Manager</h1>
-                <div class="header-actions">
-                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
-                    <a href="/" class="btn btn-secondary">View Site</a>
-                </div>
-            </header>
+        <div id="message"></div>
 
-            <!-- Stats -->
-            <div class="stats-grid">
+        <!-- Statistics -->
+        <div class="admin-section">
+            <h2>Database Statistics</h2>
+            <div class="stats-grid" id="stats">
                 <div class="stat-card">
-                    <div class="stat-number" id="stat-total">0</div>
+                    <div class="stat-number">-</div>
                     <div class="stat-label">Total Words</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="stat-active">0</div>
-                    <div class="stat-label">Active</div>
+                    <div class="stat-number">-</div>
+                    <div class="stat-label">Adjectives</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="stat-inactive">0</div>
-                    <div class="stat-label">Inactive</div>
+                    <div class="stat-number">-</div>
+                    <div class="stat-label">Subjects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">-</div>
+                    <div class="stat-label">Actions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">-</div>
+                    <div class="stat-label">Items</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">-</div>
+                    <div class="stat-label">Scenes</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Filters & Actions -->
-            <div class="admin-controls">
-                <div class="filters-row">
-                    <select id="filter-category" onchange="loadWords()">
+        <!-- Add Word Form -->
+        <div class="admin-section">
+            <h2>Add New Word</h2>
+            <form id="addWordForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="word">Word/Phrase</label>
+                        <input type="text" id="word" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" required>
+                            <option value="">Select...</option>
+                            <option value="adjective">Adjective</option>
+                            <option value="subject">Subject</option>
+                            <option value="action">Action</option>
+                            <option value="item">Item</option>
+                            <option value="scene">Scene</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Is Animal?</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="is_animal">
+                            <label for="is_animal">Living creature</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Is Object?</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="is_object">
+                            <label for="is_object">Inanimate thing</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Vibes (select all that apply)</label>
+                    <div class="mood-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_happy" value="Happy">
+                            <label for="mood_happy">Happy</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_quirky" value="Quirky">
+                            <label for="mood_quirky">Quirky</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_chill" value="Chill">
+                            <label for="mood_chill">Chill</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_spooky" value="Spooky">
+                            <label for="mood_spooky">Spooky</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_adventure" value="Adventure">
+                            <label for="mood_adventure">Adventure</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_scifi" value="Sci-Fi">
+                            <label for="mood_scifi">Sci-Fi</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="mood_fantasy" value="Fantasy">
+                            <label for="mood_fantasy">Fantasy</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Word</button>
+            </form>
+        </div>
+
+        <!-- Word List -->
+        <div class="admin-section">
+            <h2>Word List</h2>
+            
+            <div class="filters">
+                <div class="form-group">
+                    <label for="filterCategory">Category</label>
+                    <select id="filterCategory">
                         <option value="">All Categories</option>
                         <option value="adjective">Adjectives</option>
                         <option value="subject">Subjects</option>
@@ -64,110 +374,278 @@
                         <option value="item">Items</option>
                         <option value="scene">Scenes</option>
                     </select>
-                    
-                    <select id="filter-mood" onchange="loadWords()">
-                        <option value="">All Moods</option>
-                        <option value="Sunshine & Rainbows">Sunshine & Rainbows</option>
-                        <option value="Tuesday Vibes">Tuesday Vibes</option>
-                        <option value="Delightfully Odd">Delightfully Odd</option>
-                        <option value="Things That Go Bump">Things That Go Bump</option>
-                    </select>
-                    
-                    <select id="filter-active" onchange="loadWords()">
-                        <option value="">All Status</option>
-                        <option value="true">Active Only</option>
-                        <option value="false">Inactive Only</option>
-                    </select>
-                    
-                    <input type="text" id="search-word" placeholder="Search words..." onkeyup="filterTable()" />
                 </div>
-                
-                <div class="action-row">
-                    <button class="btn btn-primary" onclick="showAddModal()">+ Add New Word</button>
-                    <button class="btn btn-secondary" onclick="bulkActivate()">Activate Selected</button>
-                    <button class="btn btn-secondary" onclick="bulkDeactivate()">Deactivate Selected</button>
+
+                <div class="form-group">
+                    <label for="filterVibe">Vibe</label>
+                    <select id="filterVibe">
+                        <option value="">All Vibes</option>
+                        <option value="Happy">Happy</option>
+                        <option value="Quirky">Quirky</option>
+                        <option value="Chill">Chill</option>
+                        <option value="Spooky">Spooky</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Fantasy">Fantasy</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filterAnimal">Animals</label>
+                    <select id="filterAnimal">
+                        <option value="">All</option>
+                        <option value="true">Animals Only</option>
+                        <option value="false">No Animals</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filterObject">Objects</label>
+                    <select id="filterObject">
+                        <option value="">All</option>
+                        <option value="true">Objects Only</option>
+                        <option value="false">No Objects</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="filterActive">Status</label>
+                    <select id="filterActive">
+                        <option value="">All</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Words Table -->
-            <div class="table-container">
-                <table id="words-table">
+            <button class="btn" onclick="applyFilters()">Apply Filters</button>
+            <button class="btn btn-danger" onclick="clearFilters()">Clear Filters</button>
+
+            <div class="word-list">
+                <table id="wordTable">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" onchange="toggleSelectAll(this)" /></th>
                             <th>Word</th>
                             <th>Category</th>
-                            <th>Moods</th>
-                            <th>Flags</th>
-                            <th>Status</th>
+                            <th>Vibes</th>
+                            <th>Animal</th>
+                            <th>Object</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="words-table-body">
-                        <tr>
-                            <td colspan="7" class="loading-cell">Loading words...</td>
-                        </tr>
+                    <tbody id="wordTableBody">
+                        <tr><td colspan="7" style="text-align: center; padding: 2rem;">Loading...</td></tr>
                     </tbody>
                 </table>
             </div>
-        </section>
-    </div>
-
-    <!-- Add/Edit Modal -->
-    <div id="word-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Add New Word</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
-            </div>
-            
-            <form id="word-form" onsubmit="saveWord(event)">
-                <input type="hidden" id="word-id" />
-                
-                <div class="form-group">
-                    <label for="word-text">Word/Phrase *</label>
-                    <input type="text" id="word-text" required />
-                </div>
-                
-                <div class="form-group">
-                    <label for="word-category">Category *</label>
-                    <select id="word-category" required>
-                        <option value="">Select category...</option>
-                        <option value="adjective">Adjective</option>
-                        <option value="subject">Subject</option>
-                        <option value="action">Action</option>
-                        <option value="item">Item</option>
-                        <option value="scene">Scene</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label>Moods</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" class="mood-check" value="Sunshine & Rainbows" /> Sunshine & Rainbows</label>
-                        <label><input type="checkbox" class="mood-check" value="Tuesday Vibes" /> Tuesday Vibes</label>
-                        <label><input type="checkbox" class="mood-check" value="Delightfully Odd" /> Delightfully Odd</label>
-                        <label><input type="checkbox" class="mood-check" value="Things That Go Bump" /> Things That Go Bump</label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Flags</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" id="word-is-animal" /> Is Animal</label>
-                        <label><input type="checkbox" id="word-is-object" /> Is Object</label>
-                        <label><input type="checkbox" id="word-active" checked /> Active</label>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save Word</button>
-                </div>
-            </form>
         </div>
     </div>
 
-    <script src="admin.js"></script>
+    <script>
+        const API_URL = 'https://wdid-api-production.up.railway.app';
+
+        // Load stats on page load
+        loadStats();
+        loadWords();
+
+        // Add word form
+        document.getElementById('addWordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const word = document.getElementById('word').value;
+            const category = document.getElementById('category').value;
+            const is_animal = document.getElementById('is_animal').checked;
+            const is_object = document.getElementById('is_object').checked;
+            
+            // Collect selected moods
+            const moods = [];
+            document.querySelectorAll('.mood-checkboxes input[type="checkbox"]:checked').forEach(cb => {
+                moods.push(cb.value);
+            });
+
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word, category, is_animal, is_object, mood: moods })
+                });
+
+                if (response.ok) {
+                    showMessage('Word added successfully!', 'success');
+                    document.getElementById('addWordForm').reset();
+                    loadWords();
+                    loadStats();
+                } else {
+                    showMessage('Failed to add word', 'error');
+                }
+            } catch (error) {
+                showMessage('Error adding word', 'error');
+                console.error(error);
+            }
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/api/admin/stats`);
+                const stats = await response.json();
+                
+                const statsHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.total}</div>
+                        <div class="stat-label">Total Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.by_category.adjective || 0}</div>
+                        <div class="stat-label">Adjectives</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.by_category.subject || 0}</div>
+                        <div class="stat-label">Subjects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.by_category.action || 0}</div>
+                        <div class="stat-label">Actions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.by_category.item || 0}</div>
+                        <div class="stat-label">Items</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${stats.by_category.scene || 0}</div>
+                        <div class="stat-label">Scenes</div>
+                    </div>
+                `;
+                document.getElementById('stats').innerHTML = statsHTML;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load words
+        async function loadWords() {
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words`);
+                const words = await response.json();
+                
+                const tbody = document.getElementById('wordTableBody');
+                
+                if (words.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No words found</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = words.map(word => `
+                    <tr>
+                        <td><strong>${word.word}</strong></td>
+                        <td>${word.category}</td>
+                        <td>
+                            <div class="mood-badges">
+                                ${word.mood ? word.mood.map(m => `<span class="mood-badge">${m}</span>`).join('') : '-'}
+                            </div>
+                        </td>
+                        <td>${word.is_animal ? '✓' : '-'}</td>
+                        <td>${word.is_object ? '✓' : '-'}</td>
+                        <td>${word.active ? '✓' : '✗'}</td>
+                        <td>
+                            <button class="btn btn-small btn-danger" onclick="deleteWord(${word.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading words:', error);
+            }
+        }
+
+        // Apply filters
+        async function applyFilters() {
+            const category = document.getElementById('filterCategory').value;
+            const vibe = document.getElementById('filterVibe').value;
+            const animal = document.getElementById('filterAnimal').value;
+            const object = document.getElementById('filterObject').value;
+            const active = document.getElementById('filterActive').value;
+
+            const params = new URLSearchParams();
+            if (category) params.append('category', category);
+            if (vibe) params.append('mood', vibe);
+            if (animal) params.append('is_animal', animal);
+            if (object) params.append('is_object', object);
+            if (active) params.append('active', active);
+
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words?${params}`);
+                const words = await response.json();
+                
+                const tbody = document.getElementById('wordTableBody');
+                
+                if (words.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No words match these filters</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = words.map(word => `
+                    <tr>
+                        <td><strong>${word.word}</strong></td>
+                        <td>${word.category}</td>
+                        <td>
+                            <div class="mood-badges">
+                                ${word.mood ? word.mood.map(m => `<span class="mood-badge">${m}</span>`).join('') : '-'}
+                            </div>
+                        </td>
+                        <td>${word.is_animal ? '✓' : '-'}</td>
+                        <td>${word.is_object ? '✓' : '-'}</td>
+                        <td>${word.active ? '✓' : '✗'}</td>
+                        <td>
+                            <button class="btn btn-small btn-danger" onclick="deleteWord(${word.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error applying filters:', error);
+            }
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterVibe').value = '';
+            document.getElementById('filterAnimal').value = '';
+            document.getElementById('filterObject').value = '';
+            document.getElementById('filterActive').value = '';
+            loadWords();
+        }
+
+        // Delete word
+        async function deleteWord(id) {
+            if (!confirm('Are you sure you want to delete this word?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showMessage('Word deleted successfully', 'success');
+                    loadWords();
+                    loadStats();
+                } else {
+                    showMessage('Failed to delete word', 'error');
+                }
+            } catch (error) {
+                showMessage('Error deleting word', 'error');
+                console.error(error);
+            }
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
