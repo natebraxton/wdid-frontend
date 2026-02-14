@@ -5,28 +5,6 @@ const API_URL = 'https://wdid-api-production.up.railway.app';
 let currentDailyPrompt = null;
 let currentRandomPrompt = null;
 
-// Mood mapping: Frontend names -> Backend names
-const MOOD_MAP = {
-    'Chill': 'Tuesday Vibes',
-    'Happy': 'Sunshine & Rainbows',
-    'Quirky': 'Delightfully Odd',
-    'Creepy': 'Things That Go Bump'
-};
-
-// Animal rarity mapping
-const ANIMAL_MAP = {
-    'Some Critters': 'Normal',
-    'Let\'s Go Vegan': 'No Animals',
-    'All the Animals': 'All the Animals!'
-};
-
-// Object rarity mapping
-const OBJECT_MAP = {
-    'Some Stuff': 'Normal',
-    'Life Only': 'No Objects',
-    'Only Stuff': 'I Hate Organic Matter'
-};
-
 // Generate random tilt for prompt card
 function getRandomTilt() {
     return (Math.random() * 4) - 2; // Random between -2 and +2 degrees
@@ -41,6 +19,7 @@ function generateBackgroundColor() {
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
+
 
 // View Navigation
 function showView(viewName) {
@@ -112,17 +91,17 @@ async function generateRandom() {
     container.querySelector('.prompt-content').innerHTML = '<div class="loader">Generating prompt...</div>';
     
     const includeScene = document.getElementById('includeScene').checked;
-    const moodFrontend = document.getElementById('mood').value;
-    const animalFrontend = document.getElementById('animalRarity').value;
-    const objectFrontend = document.getElementById('objectRarity').value;
+    const vibe = document.getElementById('mood').value;
+    const animalRarity = document.getElementById('animalRarity').value;
+    const objectRarity = document.getElementById('objectRarity').value;
     
-    // Map frontend values to backend values
+    // Build filters object
     const filters = {};
-    if (moodFrontend !== 'none') {
-        filters.mood = MOOD_MAP[moodFrontend];
+    if (vibe !== 'none') {
+        filters.vibe = vibe;
     }
-    filters.animalRarity = ANIMAL_MAP[animalFrontend];
-    filters.objectRarity = OBJECT_MAP[objectFrontend];
+    filters.animalRarity = animalRarity;
+    filters.objectRarity = objectRarity;
     
     try {
         const response = await fetch(`${API_URL}/api/random`, {
