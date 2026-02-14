@@ -58,9 +58,8 @@ body {
 }
 
 .logo-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-shrink: 0; /* Prevents logo from shrinking */
+    flex-grow: 0; /* Prevents logo from growing */
 }
 
 .logo-image {
@@ -482,9 +481,9 @@ input:checked + .toggle-slider:before {
     }
     
     .site-logo {
-        height: 50px; /* Adjust this to your needs */
+        height: 40px; /* Reasonable desktop size */
         width: auto;
-        max-width: 250px; /* Prevents it from getting too wide */
+        max-width: 180px;
     }
     
     .site-title {
@@ -598,10 +597,11 @@ input:checked + .toggle-slider:before {
         font-size: 2.5rem;
     }
 }
+
 @media (max-width: 768px) {
     .site-logo {
-        height: 40px; /* Smaller on mobile */
-        max-width: 200px;
+        height: 35px; /* Slightly smaller on mobile if needed */
+        max-width: 150px;
     }
 }
 @media (max-width: 480px) {
