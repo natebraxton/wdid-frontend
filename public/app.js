@@ -213,25 +213,53 @@ async function loadArchive() {
 }
 
 // Share Prompt
-function sharePrompt(type) {
-    const prompt = type === 'daily' ? currentDailyPrompt : currentRandomPrompt;
+async function sharePrompt(type) {
+    const promptElement = type === 'daily' 
+    ? document.querySelector('#daily-prompt .prompt-text')
+    : document.querySelector('#random-prompt .prompt-text');
     
-    if (!prompt) return;
+    if (!promptElement) return;
     
-    const text = `${prompt.prompt}\n\n${prompt.hashtag || '#WhatDoIDraw'}`;
+    const promptText = promptElement.textContent;
     
+    // Different share text for daily vs random
+    const shareText = type === 'daily'
+    ? `Today's drawing challenge: ${promptText} 🎨
+
+#WhatDoIDraw
+Get more ideas → whatdoidraw.com`
+    : `Draw this: ${promptText} ✏️
+
+#WhatDoIDraw
+More prompts → whatdoidraw.com`;
+    
+    // Try native share first (mobile)
     if (navigator.share) {
-        navigator.share({
-            title: 'What Do I Draw?',
-            text: text
-        }).catch(err => console.log('Share cancelled'));
+        try {
+            await navigator.share({
+                text: shareText
+            });
+        } catch (err) {
+            if (err.name !== 'AbortError') {
+                console.error('Error sharing:', err);
+                copyToClipboard(shareText);
+            }
+        }
     } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Prompt copied to clipboard!');
-        });
+        // Fallback to clipboard
+        copyToClipboard(shareText);
     }
 }
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showMessage('Copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        showMessage('Failed to copy');
+    });
+}
+
 
 // Toggle mobile settings visibility
 function toggleMobileSettings() {
