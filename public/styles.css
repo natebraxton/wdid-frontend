@@ -63,25 +63,10 @@ body {
     gap: 1rem;
 }
 
-.logo-icon svg {
-    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.1));
-}
-
-.site-title {
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-}
-
-.title-main {
-    color: var(--dark-teal);
-    display: block;
-}
-
-.title-accent {
-    color: var(--coral);
-    display: block;
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .controls-section {
@@ -492,8 +477,14 @@ input:checked + .toggle-slider:before {
     }
     
     .logo-section {
+        display: flex;
+        align-items: center;
+    }
+    
+    .site-logo {
+        height: 50px; /* Adjust this to your needs */
         width: auto;
-        justify-content: flex-start;
+        max-width: 250px; /* Prevents it from getting too wide */
     }
     
     .site-title {
@@ -607,7 +598,12 @@ input:checked + .toggle-slider:before {
         font-size: 2.5rem;
     }
 }
-
+@media (max-width: 768px) {
+    .site-logo {
+        height: 40px; /* Smaller on mobile */
+        max-width: 200px;
+    }
+}
 @media (max-width: 480px) {
     .controls-section {
         right: 1rem;
