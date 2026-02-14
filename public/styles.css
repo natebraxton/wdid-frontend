@@ -68,6 +68,11 @@ body {
     object-fit: contain;
 }
 
+.site-logo {
+    height: 40px; /* Reasonable desktop size */
+    width: auto;
+    max-width: 180px;
+}
 .controls-section {
     display: flex;
     align-items: center;
@@ -479,12 +484,7 @@ input:checked + .toggle-slider:before {
         display: flex;
         align-items: center;
     }
-    
-    .site-logo {
-        height: 40px; /* Reasonable desktop size */
-        width: auto;
-        max-width: 180px;
-    }
+
     
     .site-title {
         font-size: 1.2rem;
