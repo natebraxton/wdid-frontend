@@ -250,6 +250,30 @@ More prompts → whatdoidraw.com`;
         copyToClipboard(shareText);
     }
 }
+function showMessage(text) {
+    // Create message element
+    const message = document.createElement('div');
+    message.textContent = text;
+    message.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #2e2e2e;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        font-weight: 700;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    `;
+    
+    document.body.appendChild(message);
+    
+    setTimeout(() => {
+        message.remove();
+    }, 2000);
+}
 
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
