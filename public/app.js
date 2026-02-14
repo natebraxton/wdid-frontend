@@ -215,12 +215,20 @@ async function loadArchive() {
 // Share Prompt
 async function sharePrompt(type) {
     const promptElement = type === 'daily' 
-    ? document.querySelector('#daily-prompt .prompt-text')
-    : document.querySelector('#random-prompt .prompt-text');
+    ? document.querySelector('#daily-prompt .prompt-content')
+    : document.querySelector('#random-prompt .prompt-content');
     
-    if (!promptElement) return;
+    if (!promptElement) {
+        console.log('Prompt element not found');
+        return;
+    }
     
-    const promptText = promptElement.textContent;
+    const promptText = promptElement.textContent.trim();
+    
+    if (!promptText || promptText === 'Loading today\'s prompt...' || promptText === 'Loading prompt...') {
+        showMessage('Wait for prompt to load');
+        return;
+    }
     
     // Different share text for daily vs random
     const shareText = type === 'daily'
@@ -250,6 +258,7 @@ More prompts → whatdoidraw.com`;
         copyToClipboard(shareText);
     }
 }
+
 function showMessage(text) {
     // Create message element
     const message = document.createElement('div');
