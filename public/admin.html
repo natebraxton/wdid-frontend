@@ -372,6 +372,22 @@
         <div class="admin-section">
             <h2>Word List</h2>
             
+            <!-- Search Bar -->
+            <div style="margin-bottom: 1rem;">
+                <div class="form-group" style="max-width: 400px;">
+                    <label for="searchInput">SEARCH WORDS</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Type to search..." 
+                            style="flex: 1; padding: 0.75rem; border: 3px solid #2e2e2e; border-radius: 10px; font-size: 1rem;">
+                        <button class="btn btn-small" onclick="searchWords()">Search</button>
+                        <button class="btn btn-small btn-danger" onclick="clearSearch()">Clear</button>
+                    </div>
+                </div>
+            </div>
+            
             <div class="filters">
                 <div class="form-group">
                     <label for="filterCategory">Category</label>
@@ -436,6 +452,7 @@
                     </select>
                 </div>
             </div>
+
             
             <button class="btn" onclick="applyFilters()">Apply Filters</button>
             <button class="btn btn-danger" onclick="clearFilters()">Clear Filters</button>
@@ -476,6 +493,102 @@
                 </table>
             </div>
         </div>
+        <!-- Edit Modal -->
+        <div id="editModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999; padding: 2rem; overflow-y: auto;">
+            <div style="max-width: 800px; margin: 2rem auto; background: white; border: 5px solid #2e2e2e; border-radius: 20px; padding: 2rem; box-shadow: 12px 12px 0px #00000050;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="margin: 0;">Edit Word</h2>
+                    <button onclick="closeEditModal()" style="background: none; border: none; font-size: 2rem; cursor: pointer; line-height: 1;">&times;</button>
+                </div>
+                
+                <form id="editWordForm">
+                    <input type="hidden" id="editWordId">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="editWord">Word/Phrase</label>
+                            <input type="text" id="editWord" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editCategory">Category</label>
+                            <select id="editCategory" required>
+                                <option value="">Select...</option>
+                                <option value="adjective">Adjective</option>
+                                <option value="subject">Subject</option>
+                                <option value="action">Action</option>
+                                <option value="item">Item</option>
+                                <option value="scene">Scene</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Is Animal?</label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editIsAnimal">
+                                <label for="editIsAnimal">Living creature</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Is Object?</label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editIsObject">
+                                <label for="editIsObject">Inanimate thing</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Active?</label>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editActive">
+                                <label for="editActive">Word is active</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Vibes (select all that apply)</label>
+                        <div class="mood-checkboxes">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodHappy" value="Happy">
+                                <label for="editMoodHappy">Happy</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodQuirky" value="Quirky">
+                                <label for="editMoodQuirky">Quirky</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodChill" value="Chill">
+                                <label for="editMoodChill">Chill</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodSpooky" value="Spooky">
+                                <label for="editMoodSpooky">Spooky</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodAdventure" value="Adventure">
+                                <label for="editMoodAdventure">Adventure</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodSciFi" value="Sci-Fi">
+                                <label for="editMoodSciFi">Sci-Fi</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="editMoodFantasy" value="Fantasy">
+                                <label for="editMoodFantasy">Fantasy</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn" onclick="closeEditModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -652,7 +765,10 @@
                     <td>${word.is_object ? '✓' : '-'}</td>
                     <td>${word.active ? '✓' : '✗'}</td>
                     <td>
-                        <button class="btn btn-small btn-danger" onclick="deleteWord(${word.id})">Delete</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-small" onclick='editWord(${JSON.stringify(word)})'>Edit</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteWord(${word.id})">Delete</button>
+                        </div>
                     </td>
                 </tr>
             `).join('');
@@ -729,6 +845,166 @@
                 messageDiv.innerHTML = '';
             }, 3000);
         }
+        // Search functionality
+        function searchWords() {
+            currentPage = 1;
+            applyFiltersAndSearch();
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            currentPage = 1;
+            applyFiltersAndSearch();
+        }
+        
+        // Allow Enter key in search
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchWords();
+            }
+        });
+        
+        // Apply filters and search together
+        async function applyFiltersAndSearch() {
+            const category = document.getElementById('filterCategory').value;
+            const vibe = document.getElementById('filterVibe').value;
+            const animal = document.getElementById('filterAnimal').value;
+            const object = document.getElementById('filterObject').value;
+            const active = document.getElementById('filterActive').value;
+            const search = document.getElementById('searchInput').value;
+            
+            const params = new URLSearchParams({
+                page: currentPage,
+                limit: pageSize
+            });
+            
+            if (search) params.append('search', search);
+            if (category) params.append('category', category);
+            if (vibe) params.append('mood', vibe);
+            if (animal) params.append('is_animal', animal);
+            if (object) params.append('is_object', object);
+            if (active) params.append('active', active);
+            
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words?${params}`);
+                const data = await response.json();
+                
+                displayWords(data.words);
+                updatePagination(data.pagination);
+            } catch (error) {
+                console.error('Error applying filters:', error);
+            }
+        }
+        
+        // Update applyFilters to use the combined function
+        async function applyFilters() {
+            currentPage = 1;
+            applyFiltersAndSearch();
+        }
+        
+        // Edit word modal
+        function editWord(word) {
+            document.getElementById('editWordId').value = word.id;
+            document.getElementById('editWord').value = word.word;
+            document.getElementById('editCategory').value = word.category;
+            document.getElementById('editIsAnimal').checked = word.is_animal;
+            document.getElementById('editIsObject').checked = word.is_object;
+            document.getElementById('editActive').checked = word.active;
+            
+            // Clear all mood checkboxes first
+            document.querySelectorAll('#editModal .mood-checkboxes input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // Check the appropriate moods
+            if (word.mood) {
+                word.mood.forEach(m => {
+                    const checkbox = document.querySelector(`#editModal input[value="${m}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+        
+        // Handle edit form submission
+        document.getElementById('editWordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('editWordId').value;
+            const word = document.getElementById('editWord').value;
+            const category = document.getElementById('editCategory').value;
+            const is_animal = document.getElementById('editIsAnimal').checked;
+            const is_object = document.getElementById('editIsObject').checked;
+            const active = document.getElementById('editActive').checked;
+            
+            // Collect selected moods
+            const moods = [];
+            document.querySelectorAll('#editModal .mood-checkboxes input[type="checkbox"]:checked').forEach(cb => {
+                moods.push(cb.value);
+            });
+            
+            try {
+                const response = await fetch(`${API_URL}/api/admin/words/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ word, category, is_animal, is_object, mood: moods, active })
+                });
+                
+                if (response.ok) {
+                    showMessage('Word updated successfully!', 'success');
+                    closeEditModal();
+                    
+                    // Check if we need to reload with filters/search
+                    const hasFilters = 
+                    document.getElementById('filterCategory').value ||
+                    document.getElementById('filterVibe').value ||
+                    document.getElementById('filterAnimal').value ||
+                    document.getElementById('filterObject').value ||
+                    document.getElementById('filterActive').value ||
+                    document.getElementById('searchInput').value;
+                    
+                    if (hasFilters) {
+                        applyFiltersAndSearch();
+                    } else {
+                        loadWords();
+                    }
+                    
+                    loadStats();
+                } else {
+                    showMessage('Failed to update word', 'error');
+                }
+            } catch (error) {
+                showMessage('Error updating word', 'error');
+                console.error(error);
+            }
+        });
+        
+        // Update goToPage to use the combined function
+        function goToPage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            
+            // Check if filters or search are active
+            const hasFilters = 
+            document.getElementById('filterCategory').value ||
+            document.getElementById('filterVibe').value ||
+            document.getElementById('filterAnimal').value ||
+            document.getElementById('filterObject').value ||
+            document.getElementById('filterActive').value ||
+            document.getElementById('searchInput').value;
+            
+            if (hasFilters) {
+                applyFiltersAndSearch();
+            } else {
+                loadWords();
+            }
+        }
+
     </script>
 </body>
 </html>
