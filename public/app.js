@@ -404,22 +404,24 @@ if (window.location.hash === '#random') {
     generateRandom();
 }
 
-// Subtle bounce animation for random button
-function animateRandomButton() {
-    const button = document.querySelector('#random-view .random-button');
-    console.log('Trying to animate button:', button);
-    console.log('Random view active?', document.getElementById('random-view').classList.contains('active'));
+// Subtle bounce animation for prompt buttons
+function animatePromptButton() {
+    const dailyButton = document.querySelector('#daily-view .random-button');
+    const randomButton = document.querySelector('#random-view .random-button');
     
-    if (button && document.getElementById('random-view').classList.contains('active')) {
-        console.log('Adding bounce class');
-        button.classList.add('bounce');
-        setTimeout(() => {
-            button.classList.remove('bounce');
-            console.log('Removed bounce class');
-        }, 600);
+    // Bounce daily button if on daily view
+    if (dailyButton && document.getElementById('daily-view').classList.contains('active')) {
+        dailyButton.classList.add('bounce');
+        setTimeout(() => dailyButton.classList.remove('bounce'), 600);
+    }
+    
+    // Bounce random button if on random view
+    if (randomButton && document.getElementById('random-view').classList.contains('active')) {
+        randomButton.classList.add('bounce');
+        setTimeout(() => randomButton.classList.remove('bounce'), 600);
     }
 }
 
 // Test bounce immediately after 2 seconds, then every 8 seconds
-setTimeout(animateRandomButton, 2000);
-setInterval(animateRandomButton, 8000);
+setTimeout(animatePromptButton, 2000);
+setInterval(animatePromptButton, 8000);
