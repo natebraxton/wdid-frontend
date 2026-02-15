@@ -394,6 +394,16 @@ function toggleMobileSettings() {
     }
 }
 
+
+// Initialize
+loadDailyPrompt();
+
+// Auto-generate random prompt when on random view
+if (window.location.hash === '#random') {
+    showView('random');
+    generateRandom();
+}
+
 // Subtle bounce animation for random button
 function animateRandomButton() {
     const button = document.querySelector('#random-view .random-button');
@@ -413,13 +423,3 @@ function animateRandomButton() {
 // Test bounce immediately after 2 seconds, then every 8 seconds
 setTimeout(animateRandomButton, 2000);
 setInterval(animateRandomButton, 8000);
-
-
-// Initialize
-loadDailyPrompt();
-
-// Auto-generate random prompt when on random view
-if (window.location.hash === '#random') {
-    showView('random');
-    generateRandom();
-}
