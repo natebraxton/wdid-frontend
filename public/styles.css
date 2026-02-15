@@ -286,12 +286,10 @@ input:checked + .toggle-slider:before {
     background: white;
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
-    padding: 5rem 3rem 3rem;
+    padding: 3rem 3rem 2rem;
     min-height: 400px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: relative;
     box-shadow: 12px 12px 0px #00000050;
     margin: 0 auto;
@@ -301,17 +299,17 @@ input:checked + .toggle-slider:before {
 }
 
 .prompt-content {
-    flex: 1;
+    flex: 1; /* Takes up available space */
     display: flex;
+    align-items: center; /* Vertically centers */
+    justify-content: center; /* Horizontally centers */
     font-size: 4.5rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--dark-teal);
     text-align: center;
     width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1.5rem;
+    padding: 1rem;
 }
 
 .prompt-content .clickable-word {
