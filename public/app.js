@@ -397,13 +397,21 @@ function toggleMobileSettings() {
 // Subtle bounce animation for random button
 function animateRandomButton() {
     const button = document.querySelector('#random-view .random-button');
+    console.log('Trying to animate button:', button);
+    console.log('Random view active?', document.getElementById('random-view').classList.contains('active'));
+    
     if (button && document.getElementById('random-view').classList.contains('active')) {
+        console.log('Adding bounce class');
         button.classList.add('bounce');
-        setTimeout(() => button.classList.remove('bounce'), 600);
+        setTimeout(() => {
+            button.classList.remove('bounce');
+            console.log('Removed bounce class');
+        }, 600);
     }
 }
 
-// Bounce every 8 seconds when on random view
+// Test bounce immediately after 2 seconds, then every 8 seconds
+setTimeout(animateRandomButton, 2000);
 setInterval(animateRandomButton, 8000);
 
 
