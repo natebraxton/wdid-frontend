@@ -31,6 +31,22 @@ function showView(viewName) {
     // Show selected view
     document.getElementById(`${viewName}-view`).classList.add('active');
     
+    // Apply background color for the current view
+    if (viewName === 'daily' && currentDailyPrompt) {
+        const bgColor = currentDailyPrompt.background_color || currentDailyPrompt.backgroundColor;
+        if (bgColor) {
+            document.body.style.backgroundColor = bgColor;
+        }
+    } else if (viewName === 'random' && currentRandomPrompt) {
+        const bgColor = currentRandomPrompt.background_color || currentRandomPrompt.backgroundColor;
+        if (bgColor) {
+            document.body.style.backgroundColor = bgColor;
+        }
+    } else if (viewName === 'archive') {
+        // Set a neutral color for archive view
+        document.body.style.backgroundColor = 'var(--cream)';
+    }
+    
     // Load data if needed
     if (viewName === 'archive' && !document.querySelector('.archive-item')) {
         loadArchive();
@@ -43,6 +59,7 @@ function showView(viewName) {
         }
     }
 }
+
 
 // Load Daily Prompt
 async function loadDailyPrompt() {
