@@ -61,7 +61,7 @@ async function loadDailyPrompt() {
             // Update hashtag link
             const hashtagLink = document.getElementById('daily-hashtag');
             const hashtag = data.hashtag || `#WDID${formatDate(new Date())}`;
-            hashtagLink.textContent = hashtag;
+            hashtagLink.textContent = `View ${hashtag} on Cara.app`;
             hashtagLink.href = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
             hashtagLink.style.display = 'block';
         } else {
@@ -88,12 +88,12 @@ async function loadDailyPrompt() {
     }
 }
 
-// Helper function to format date for hashtag (MMDDYY)
+// Helper function to format date for hashtag (YYMMDD)
 function formatDate(date) {
+    const year = String(date.getFullYear()).slice(-2);
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
-    return month + day + year;
+    return year + month + day;
 }
 
 // Generate Random Prompt

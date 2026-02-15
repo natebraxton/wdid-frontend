@@ -289,6 +289,7 @@ input:checked + .toggle-slider:before {
     padding: 5rem 3rem 3rem;
     min-height: 450px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
@@ -300,6 +301,7 @@ input:checked + .toggle-slider:before {
 }
 
 .prompt-content {
+    flex: 1;
     font-size: 4.5rem;
     font-weight: 700;
     line-height: 1.2;
@@ -328,22 +330,22 @@ input:checked + .toggle-slider:before {
 .hashtag-link {
     display: block;
     margin-top: 1.5rem;
-    padding: 0.75rem 1.5rem;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
     text-decoration: none;
     color: #2e2e2e;
-    font-weight: 700;
-    font-size: 1.1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
     text-align: center;
     transition: all 0.2s;
-    border: 3px solid transparent;
+    border: 2px solid transparent;
+    align-self: stretch; /* Full width */
 }
-
 .hashtag-link:hover {
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.1);
     border-color: #2e2e2e;
-    transform: translateY(-2px);
+    text-decoration: underline;
 }
 
 /* ============================================
