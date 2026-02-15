@@ -10,6 +10,18 @@ function getRandomTilt() {
     return (Math.random() * 4) - 2; // Random between -2 and +2 degrees
 }
 
+// Subtle bounce animation for random button
+function animateRandomButton() {
+    const button = document.querySelector('#random-view .random-button');
+    if (button && document.getElementById('random-view').classList.contains('active')) {
+        button.classList.add('bounce');
+        setTimeout(() => button.classList.remove('bounce'), 600);
+    }
+}
+
+// Bounce every 8 seconds when on random view
+setInterval(animateRandomButton, 8000);
+
 // Generate random background color (WCAG AA compliant)
 function generateBackgroundColor() {
     const colors = [

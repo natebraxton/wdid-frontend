@@ -687,6 +687,19 @@ input:checked + .toggle-slider:before {
         font-size: 28px;
     }
     
+    @keyframes gentle-bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+    
+    .random-button.bounce {
+        animation: gentle-bounce 0.6s ease-in-out;
+    }
+    
     .action-buttons {
         bottom: 1rem;
         left: 1rem;
