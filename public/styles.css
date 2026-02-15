@@ -449,17 +449,30 @@ input:checked + .toggle-slider:before {
 }
 
 @keyframes gentle-bounce {
-    0%, 100% {
+    0% {
         transform: translateX(-50%) translateY(0);
     }
-    50% {
+    20% {
         transform: translateX(-50%) translateY(-8px);
+    }
+    40% {
+        transform: translateX(-50%) translateY(0);
+    }
+    55% {
+        transform: translateX(-50%) translateY(-4px);
+    }
+    70% {
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0);
     }
 }
 
 .random-button.bounce {
-    animation: gentle-bounce 0.6s ease-in-out;
+    animation: gentle-bounce 0.8s ease-out;
 }
+
 
 /* ============================================
    ARCHIVE
