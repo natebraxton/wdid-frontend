@@ -462,7 +462,7 @@ input:checked + .toggle-slider:before {
 .archive-header h2 {
     font-size: 2rem;
     font-weight: 900;
-    color: var(--dark-teal);
+    color: #fff;
     margin: 0;
 }
 

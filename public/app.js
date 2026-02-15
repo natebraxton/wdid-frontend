@@ -43,8 +43,8 @@ function showView(viewName) {
             document.body.style.backgroundColor = bgColor;
         }
     } else if (viewName === 'archive') {
-        // Set a neutral color for archive view
-        document.body.style.backgroundColor = 'var(--cream)';
+        // Set dark background for archive view
+        document.body.style.backgroundColor = '#353535';
     }
     
     // Load data if needed
