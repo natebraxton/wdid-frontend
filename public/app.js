@@ -323,12 +323,12 @@ async function sharePrompt(type) {
     
     // Different share text for daily vs random
     const shareText = type === 'daily'
-    ? `Today's drawing challenge: ${promptText} ✏️
+    ? `Today you should draw ${promptText} ✏️
 
 Get more ideas → whatdoidraw.com ${hashtag}`
-    : `Draw this: ${promptText} ✏️
+    : `Can you draw this ${promptText}? ✏️
 
-More prompts → whatdoidraw.com #WDID`;
+Get more ideas → whatdoidraw.com #WDID`;
     
     // Try native share first (mobile)
     if (navigator.share) {
