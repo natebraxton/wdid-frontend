@@ -57,6 +57,13 @@ async function loadDailyPrompt() {
         if (response.ok) {
             currentDailyPrompt = data;
             displayPrompt(data, 'daily-prompt');
+            
+            // Update hashtag link
+            const hashtagLink = document.getElementById('daily-hashtag');
+            const hashtag = data.hashtag || `#WDID${formatDate(new Date())}`;
+            hashtagLink.textContent = hashtag;
+            hashtagLink.href = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
+            hashtagLink.style.display = 'block';
         } else {
             container.querySelector('.prompt-content').innerHTML = `
                 <div style="color: var(--coral); font-size: 1.2rem;">
@@ -64,6 +71,8 @@ async function loadDailyPrompt() {
                     <small style="font-size: 0.8rem;">Check back at midnight</small>
                 </div>
             `;
+            // Hide hashtag if no prompt
+            document.getElementById('daily-hashtag').style.display = 'none';
         }
     } catch (error) {
         container.querySelector('.prompt-content').innerHTML = `
@@ -72,9 +81,19 @@ async function loadDailyPrompt() {
             </div>
         `;
         console.error('Error loading daily prompt:', error);
+        // Hide hashtag on error
+        document.getElementById('daily-hashtag').style.display = 'none';
     } finally {
         container.classList.remove('loading');
     }
+}
+
+// Helper function to format date for hashtag (MMDDYY)
+function formatDate(date) {
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    return month + day + year;
 }
 
 // Generate Random Prompt
