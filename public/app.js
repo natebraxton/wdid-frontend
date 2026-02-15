@@ -325,12 +325,10 @@ async function sharePrompt(type) {
     const shareText = type === 'daily'
     ? `Today's drawing challenge: ${promptText} ✏️
 
-#WhatDoIDraw
-Get more ideas → whatdoidraw.com`
+Get more ideas → whatdoidraw.com ${hashtag}`
     : `Draw this: ${promptText} ✏️
 
-#WhatDoIDraw
-More prompts → whatdoidraw.com`;
+More prompts → whatdoidraw.com #WDID`;
     
     // Try native share first (mobile)
     if (navigator.share) {
