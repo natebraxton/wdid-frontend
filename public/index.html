@@ -169,10 +169,24 @@
                 </div>
             </div>
             
+            <!-- Pagination Controls -->
+            <div class="archive-pagination">
+                <button class="archive-page-btn" id="archivePrevBtn" onclick="loadArchivePage('prev')" disabled>
+                    <span class="material-symbols-outlined">chevron_left</span>
+                    Previous
+                </button>
+                <span id="archivePageInfo">Page 1</span>
+                <button class="archive-page-btn" id="archiveNextBtn" onclick="loadArchivePage('next')">
+                    Next
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </button>
+            </div>
+            
             <div id="archive-list" class="archive-grid loading">
                 <div class="loader">Loading archive...</div>
             </div>
         </section>
+        
     </div>
 
     <script src="app.js"></script>

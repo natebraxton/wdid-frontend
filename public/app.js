@@ -48,8 +48,11 @@ function showView(viewName) {
     }
     
     // Load data if needed
-    if (viewName === 'archive' && !document.querySelector('.archive-item')) {
-        loadArchive();
+    if (viewName === 'archive') {
+        currentArchivePage = 1; // Reset to page 1
+        if (!document.querySelector('.archive-item')) {
+            loadArchive();
+        }
     }
     
     if (viewName === 'random') {
@@ -214,7 +217,12 @@ function searchWord(word) {
     window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(word)}`, '_blank');
 }
 
-// Load Archive
+// Archive pagination state
+let currentArchivePage = 1;
+const archiveItemsPerPage = 12;
+let totalArchivePages = 1;
+
+// Load Archive with pagination
 async function loadArchive() {
     const container = document.getElementById('archive-list');
     container.classList.add('loading');
@@ -222,21 +230,12 @@ async function loadArchive() {
     
     try {
         const response = await fetch(`${API_URL}/api/archive`);
-        const data = await response.json();
+        const allData = await response.json();
         
-        if (response.ok && data.length > 0) {
-            container.innerHTML = data.map(prompt => `
-                <div class="archive-item">
-                    <div class="archive-date">${new Date(prompt.date).toLocaleDateString('en-US', { 
-                        weekday: 'short', 
-                        month: 'short', 
-                        day: 'numeric', 
-                        year: 'numeric' 
-                    })}</div>
-                    <div class="archive-prompt">${prompt.prompt}</div>
-                    <div class="archive-hashtag">${prompt.hashtag}</div>
-                </div>
-            `).join('');
+        if (response.ok && allData.length > 0) {
+            // Calculate pagination
+            totalArchivePages = Math.ceil(allData.length / archiveItemsPerPage);
+            displayArchivePage(allData);
         } else {
             container.innerHTML = '<p style="text-align: center; color: var(--dark-teal); opacity: 0.6;">No archived prompts yet!</p>';
         }
@@ -245,6 +244,62 @@ async function loadArchive() {
         console.error('Error loading archive:', error);
     } finally {
         container.classList.remove('loading');
+    }
+}
+
+// Display specific page of archive
+function displayArchivePage(allData) {
+    const container = document.getElementById('archive-list');
+    const startIndex = (currentArchivePage - 1) * archiveItemsPerPage;
+    const endIndex = startIndex + archiveItemsPerPage;
+    const pageData = allData.slice(startIndex, endIndex);
+    
+    container.innerHTML = pageData.map(prompt => {
+        const bgColor = prompt.background_color || prompt.backgroundColor || '#2563EB';
+        const date = new Date(prompt.date).toLocaleDateString('en-US', { 
+            weekday: 'short', 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        });
+        const hashtag = prompt.hashtag || '#WDID';
+        const searchUrl = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
+        
+        return `
+            <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="archive-item" style="background-color: ${bgColor};">
+                <div class="archive-date">${date}</div>
+                <div class="archive-prompt">${prompt.prompt}</div>
+                <div class="archive-hashtag">${hashtag}</div>
+            </a>
+        `;
+    }).join('');
+    
+    // Update pagination controls
+    updateArchivePagination();
+    
+    // Store all data for navigation
+    window.archiveData = allData;
+}
+
+// Update pagination button states
+function updateArchivePagination() {
+    document.getElementById('archivePageInfo').textContent = `Page ${currentArchivePage} of ${totalArchivePages}`;
+    document.getElementById('archivePrevBtn').disabled = currentArchivePage === 1;
+    document.getElementById('archiveNextBtn').disabled = currentArchivePage === totalArchivePages;
+}
+
+// Navigate archive pages
+function loadArchivePage(direction) {
+    if (direction === 'prev' && currentArchivePage > 1) {
+        currentArchivePage--;
+    } else if (direction === 'next' && currentArchivePage < totalArchivePages) {
+        currentArchivePage++;
+    }
+    
+    if (window.archiveData) {
+        displayArchivePage(window.archiveData);
+        // Scroll to top of archive
+        document.getElementById('archive-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
