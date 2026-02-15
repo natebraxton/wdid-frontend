@@ -286,10 +286,11 @@ input:checked + .toggle-slider:before {
     background: white;
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
-    padding: 3rem 3rem 2rem;
+    padding: 2rem 3rem;
     min-height: 400px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* Spreads label, prompt, and button evenly */
     position: relative;
     box-shadow: 12px 12px 0px #00000050;
     margin: 0 auto;
@@ -299,17 +300,14 @@ input:checked + .toggle-slider:before {
 }
 
 .prompt-content {
-    flex: 1; /* Takes up available space */
-    display: flex;
-    align-items: center; /* Vertically centers */
-    justify-content: center; /* Horizontally centers */
+    /* Remove display: flex - it breaks inline text flow */
     font-size: 4.5rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--dark-teal);
     text-align: center;
     width: 100%;
-    padding: 1rem;
+    padding: 3rem 1rem; /* Vertical padding creates the centered feeling */
 }
 
 .prompt-content .clickable-word {
