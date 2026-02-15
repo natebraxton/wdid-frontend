@@ -35,6 +35,30 @@ body {
     transition: background-color 0.5s ease;
 }
 
+/* Background scribble overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('youtube-background.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3; /* Adjust for subtlety */
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container,
+.top-bar {
+    position: relative;
+    z-index: 1;
+}
+
+
 /* ============================================
    TOP NAVIGATION BAR
    ============================================ */
