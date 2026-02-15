@@ -287,7 +287,7 @@ input:checked + .toggle-slider:before {
     border: 5px solid var(--dark-teal);
     border-radius: 20px;
     padding: 5rem 3rem 3rem;
-    min-height: 450px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -302,12 +302,16 @@ input:checked + .toggle-slider:before {
 
 .prompt-content {
     flex: 1;
+    display: flex;
     font-size: 4.5rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--dark-teal);
     text-align: center;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
 }
 
 .prompt-content .clickable-word {
@@ -328,7 +332,8 @@ input:checked + .toggle-slider:before {
 }
 
 .hashtag-link {
-    display: block;
+    display: inline-block;
+    align-self: center;
     margin-top: 1.5rem;
     padding: 0.5rem 1rem;
     background: rgba(0, 0, 0, 0.05);
@@ -340,12 +345,11 @@ input:checked + .toggle-slider:before {
     text-align: center;
     transition: all 0.2s;
     border: 2px solid transparent;
-    align-self: stretch; /* Full width */
 }
 .hashtag-link:hover {
     background: rgba(0, 0, 0, 0.1);
     border-color: #2e2e2e;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 /* ============================================
