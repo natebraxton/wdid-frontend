@@ -80,7 +80,9 @@ async function loadDailyPrompt() {
             
             // Update hashtag link
             const hashtagLink = document.getElementById('daily-hashtag');
-            const hashtag = data.hashtag || `#WDID${formatDate(new Date())}`;
+            // Always use the hashtag from the API (derived from Eastern Time)
+            // Never fall back to browser local time — it may be a different date
+            const hashtag = data.hashtag || '#WDID';
             hashtagLink.textContent = `View ${hashtag} on Cara.app`;
             hashtagLink.href = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
             hashtagLink.style.display = 'block';
