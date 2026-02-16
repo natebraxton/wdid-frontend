@@ -334,10 +334,10 @@ async function sharePrompt(type) {
     
     // Different share text for daily vs random
     const shareText = type === 'daily'
-    ? `Today you should draw ${promptText}. âœï¸
+    ? `Today you should draw ${promptText}. \u270F\uFE0F
 
 Get more ideas â†’ whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
-    : `Can you draw ${promptText}? âœï¸
+    : `Can you draw ${promptText}? \u270F\uFE0F
 
 Get more ideas â†’ whatdoidraw.com #WDID`;
     
