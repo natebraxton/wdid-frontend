@@ -82,7 +82,7 @@ async function loadDailyPrompt() {
             // Update hashtag link
             const hashtagLink = document.getElementById('daily-hashtag');
             // Always use the hashtag from the API (derived from Eastern Time)
-            // Never fall back to browser local time — it may be a different date
+            // Never fall back to browser local time â€” it may be a different date
             const hashtag = data.hashtag || '#WDID';
             currentDailyHashtag = hashtag;  // Store for share function
             hashtagLink.textContent = `View ${hashtag} on Cara.app`;
@@ -334,12 +334,12 @@ async function sharePrompt(type) {
     
     // Different share text for daily vs random
     const shareText = type === 'daily'
-    ? `Today you should draw ${promptText}. ✏️
+    ? `Today you should draw ${promptText}. âœï¸
 
-Get more ideas → whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
-    : `Can you draw ${promptText}? ✏️
+Get more ideas â†’ whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
+    : `Can you draw ${promptText}? âœï¸
 
-Get more ideas → whatdoidraw.com #WDID`;
+Get more ideas â†’ whatdoidraw.com #WDID`;
     
     // Try native share first (mobile)
     if (navigator.share) {
@@ -348,13 +348,13 @@ Get more ideas → whatdoidraw.com #WDID`;
                 text: shareText
             });
         } catch (err) {
+            // User cancelled or share panel closed â€” that's fine, do nothing
             if (err.name !== 'AbortError') {
-                console.error('Error sharing:', err);
-                copyToClipboard(shareText);
+                console.log('Share dismissed:', err.name);
             }
         }
     } else {
-        // Fallback to clipboard
+        // No native share (desktop browsers) â€” copy to clipboard instead
         copyToClipboard(shareText);
     }
 }
