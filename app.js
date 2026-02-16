@@ -199,8 +199,12 @@ function displayPrompt(data, containerId) {
         scene: data.scene
     };
     
-    // Create the prompt text with spans for database words
-    let promptHTML = data.prompt;
+    // Title Case the prompt for card display
+    // (Share function grabs textContent and lowercases it separately)
+    function toTitleCase(str) {
+        return str.replace(/\b\w/g, c => c.toUpperCase());
+    }
+    let promptHTML = toTitleCase(data.prompt);
     
     // Replace each database word with colored, clickable span
     Object.entries(dbWords).forEach(([category, word]) => {
@@ -318,16 +322,19 @@ async function sharePrompt(type) {
         return;
     }
     
-    const promptText = promptElement.textContent.trim();
+    let promptText = promptElement.textContent.trim();
     
     if (!promptText || promptText === 'Loading today\'s prompt...' || promptText === 'Loading prompt...') {
         showMessage('Wait for prompt to load');
         return;
     }
     
+    // Card displays Title Case, but share text needs sentence case
+    promptText = promptText.toLowerCase();
+    
     // Different share text for daily vs random
     const shareText = type === 'daily'
-    ? `Today you should draw ${promptText} ✏️
+    ? `Today you should draw ${promptText}. ✏️
 
 Get more ideas → whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
     : `Can you draw ${promptText}? ✏️
@@ -399,7 +406,78 @@ function toggleMobileSettings() {
 }
 
 
-// Initialize
+// ============================================
+// BUTTON WIRING
+// ============================================
+
+// Daily view buttons
+const dailyRandomBtn = document.querySelector('#daily-view .random-button');
+if (dailyRandomBtn) {
+    dailyRandomBtn.addEventListener('click', () => {
+        showView('random');
+        generateRandom();
+    });
+}
+
+// Daily view action buttons (archive + share)
+const dailyActionBtns = document.querySelectorAll('#daily-view .action-buttons .icon-btn');
+dailyActionBtns.forEach(btn => {
+    const icon = btn.querySelector('.material-symbols-outlined')?.textContent.trim();
+    if (icon === 'history') {
+        btn.addEventListener('click', () => showView('archive'));
+    } else if (icon === 'share') {
+        btn.addEventListener('click', () => sharePrompt('daily'));
+    }
+});
+
+// Random view buttons
+const randomGenerateBtn = document.querySelector('#random-view .random-button');
+if (randomGenerateBtn) {
+    randomGenerateBtn.addEventListener('click', () => generateRandom());
+}
+
+// Random view action buttons (today + archive + share)
+const randomActionBtns = document.querySelectorAll('#random-view .action-buttons .icon-btn');
+randomActionBtns.forEach(btn => {
+    const icon = btn.querySelector('.material-symbols-outlined')?.textContent.trim();
+    if (icon === 'today') {
+        btn.addEventListener('click', () => showView('daily'));
+    } else if (icon === 'history') {
+        btn.addEventListener('click', () => showView('archive'));
+    } else if (icon === 'share') {
+        btn.addEventListener('click', () => sharePrompt('random'));
+    }
+});
+
+// Archive view buttons (today + random)
+const archiveActionBtns = document.querySelectorAll('#archive-view .archive-nav .icon-btn');
+archiveActionBtns.forEach(btn => {
+    const icon = btn.querySelector('.material-symbols-outlined')?.textContent.trim();
+    if (icon === 'today') {
+        btn.addEventListener('click', () => showView('daily'));
+    } else if (icon === 'autorenew') {
+        btn.addEventListener('click', () => {
+            showView('random');
+            generateRandom();
+        });
+    }
+});
+
+// Archive pagination
+const archivePrevBtn = document.getElementById('archivePrevBtn');
+const archiveNextBtn = document.getElementById('archiveNextBtn');
+if (archivePrevBtn) archivePrevBtn.addEventListener('click', () => loadArchivePage('prev'));
+if (archiveNextBtn) archiveNextBtn.addEventListener('click', () => loadArchivePage('next'));
+
+// Mobile settings toggle
+const mobileToggle = document.querySelector('.mobile-settings-toggle');
+if (mobileToggle) {
+    mobileToggle.addEventListener('click', () => toggleMobileSettings());
+}
+
+// ============================================
+// INITIALIZE
+// ============================================
 loadDailyPrompt();
 
 // Auto-generate random prompt when on random view
