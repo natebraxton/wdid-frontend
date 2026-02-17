@@ -82,11 +82,11 @@ async function loadDailyPrompt() {
             // Update hashtag link
             const hashtagLink = document.getElementById('daily-hashtag');
             // Always use the hashtag from the API (derived from Eastern Time)
-            // Never fall back to browser local time â€” it may be a different date
+            // Never fall back to browser local time — it may be a different date
             const hashtag = data.hashtag || '#WDID';
             currentDailyHashtag = hashtag;  // Store for share function
             hashtagLink.textContent = `View ${hashtag} on Cara.app`;
-            hashtagLink.href = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
+            hashtagLink.href = `https://cara.app/search?q=${encodeURIComponent(hashtag.replace('#', ''))}`;
             hashtagLink.style.display = 'block';
         } else {
             container.querySelector('.prompt-content').innerHTML = `
@@ -271,7 +271,7 @@ function displayArchivePage(allData) {
             year: 'numeric' 
         });
         const hashtag = prompt.hashtag || '#WDID';
-        const searchUrl = `https://cara.app/search?q=${encodeURIComponent(hashtag)}`;
+        const searchUrl = `https://cara.app/search?q=${encodeURIComponent(hashtag.replace('#', ''))}`;
         
         return `
             <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="archive-item" style="background-color: ${bgColor};">
@@ -336,10 +336,10 @@ async function sharePrompt(type) {
     const shareText = type === 'daily'
     ? `Today you should draw ${promptText}. \u270F\uFE0F
 
-More drawing ideas \u2192 whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
+Get more ideas → whatdoidraw.com ${currentDailyHashtag || '#WDID'}`
     : `Can you draw ${promptText}? \u270F\uFE0F
 
-More drawing ideas \u2192 whatdoidraw.com #WDID`;
+Get more ideas → whatdoidraw.com #WDID`;
     
     // Try native share first (mobile)
     if (navigator.share) {
@@ -348,13 +348,13 @@ More drawing ideas \u2192 whatdoidraw.com #WDID`;
                 text: shareText
             });
         } catch (err) {
-            // User cancelled or share panel closed â€” that's fine, do nothing
+            // User cancelled or share panel closed — that's fine, do nothing
             if (err.name !== 'AbortError') {
                 console.log('Share dismissed:', err.name);
             }
         }
     } else {
-        // No native share (desktop browsers) â€” copy to clipboard instead
+        // No native share (desktop browsers) — copy to clipboard instead
         copyToClipboard(shareText);
     }
 }
