@@ -264,7 +264,9 @@ function displayArchivePage(allData) {
     
     container.innerHTML = pageData.map(prompt => {
         const bgColor = prompt.background_color || prompt.backgroundColor || '#2563EB';
-        const date = new Date(prompt.date).toLocaleDateString('en-US', { 
+        // Append T12:00 to prevent UTC midnight from shifting the date back a day
+        const dateStr = typeof prompt.date === 'string' ? prompt.date.split('T')[0] : prompt.date;
+        const date = new Date(dateStr + 'T12:00:00').toLocaleDateString('en-US', { 
             weekday: 'short', 
             month: 'short', 
             day: 'numeric', 
