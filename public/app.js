@@ -410,6 +410,9 @@ function toggleMobileSettings() {
 // BUTTON WIRING
 // ============================================
 
+// Wait for DOM to be fully loaded before wiring up buttons
+document.addEventListener('DOMContentLoaded', () => {
+
 // Daily view buttons
 const dailyRandomBtn = document.querySelector('#daily-view .random-button');
 if (dailyRandomBtn) {
@@ -473,7 +476,11 @@ if (archiveNextBtn) archiveNextBtn.addEventListener('click', () => loadArchivePa
 const mobileToggle = document.querySelector('.mobile-settings-toggle');
 if (mobileToggle) {
     mobileToggle.addEventListener('click', () => toggleMobileSettings());
+} else {
+    console.warn('Mobile settings toggle button not found');
 }
+
+}); // End DOMContentLoaded
 
 // ============================================
 // INITIALIZE
